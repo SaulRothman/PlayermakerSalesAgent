@@ -30,12 +30,10 @@ services:
     plan: free
     region: oregon
     rootDir: web
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: npx next start --hostname 0.0.0.0 --port $PORT
     healthCheckPath: /help-me-decide
     envVars:
-      - key: NODE_ENV
-        value: production
       - key: CATALOG_API_URL
         fromService:
           name: playermaker-catalog

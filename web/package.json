@@ -12,15 +12,13 @@
     "simulate-webhook": "node scripts/simulate-webhook.mjs"
   },
   "dependencies": {
-    "next": "^15.5.4",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "server-only": "^0.0.1"
-  },
-  "devDependencies": {
     "@types/node": "^24.6.2",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
+    "next": "^15.5.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "server-only": "^0.0.1",
     "typescript": "^5.9.3"
   }
 }
