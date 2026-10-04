@@ -112,7 +112,13 @@ def root() -> dict[str, Any]:
 @app.get("/health")
 @app.get("/v1/health")
 def health() -> dict[str, Any]:
-    return {"ok": True, "api_version": API_VERSION, "loaded_at": store.loaded_at}
+    return {
+        "ok": True,
+        "api_version": API_VERSION,
+        "loaded_at": store.loaded_at,
+        "data_dir": str(store.data_dir),
+        "product_count": len(store.products()),
+    }
 
 
 @app.get("/meta")
