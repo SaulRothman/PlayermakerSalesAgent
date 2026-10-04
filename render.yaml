@@ -15,7 +15,6 @@ services:
     runtime: python
     plan: free
     region: oregon
-    pythonVersion: "3.12.8"
     buildCommand: pip install -r api/requirements.txt
     startCommand: uvicorn api.app:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /v1/health
@@ -41,7 +40,7 @@ services:
         fromService:
           name: playermaker-catalog
           type: web
-          envVarKey: RENDER_EXTERNAL_URL
+          envVarKey: RENDER_EXTERNAL_URL # https://<service>.onrender.com
       - key: DEVREV_AGENT_ENDPOINT
         value: https://api.devrev.ai/internal/ai-agents.events.execute-async
       - key: DEVREV_AGENT_ID
