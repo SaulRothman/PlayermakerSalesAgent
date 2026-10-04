@@ -407,6 +407,19 @@ h2 {
   opacity: 0.48;
 }
 
+.panel-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.panel-card-actions .btn {
+  flex: 1 1 auto;
+  min-height: var(--tap);
+  text-align: center;
+}
+
 .lead-form {
   display: grid;
   gap: 10px;

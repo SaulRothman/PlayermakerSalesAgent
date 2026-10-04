@@ -12,9 +12,11 @@ import type {
   LeadFormState,
   LeadProfile,
   LeadResult,
+  PanelProduct,
   PanelState,
   UtmContext,
 } from "@/lib/agent-protocol";
+import { mergePanels } from "@/lib/agent-protocol";
 
 function newSessionId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
@@ -68,6 +70,7 @@ export function DecideExperience() {
   const [email, setEmail] = useState("");
   const [signals, setSignals] = useState<BuyerSignals>({});
   const startedRef = useRef(false);
+  const refreshGen = useRef(0);
 
   const emphasized = panel?.emphasized_product_id;
 
@@ -84,6 +87,7 @@ export function DecideExperience() {
   ) {
     const sid = sessionId || newSessionId();
     if (!sessionId) setSessionId(sid);
+    refreshGen.current += 1;
     setPending(true);
     setError(null);
     if (input_type === "lead") {
@@ -115,10 +119,13 @@ export function DecideExperience() {
       if (!res.ok) throw new Error(data.error || "Agent error");
       setMessages((m) => [...m, ...data.messages]);
       setChips(data.chips || []);
-      setPanel(data.panel);
+      setPanel((prev) => mergePanels(prev, data.panel));
       setLeadForm(data.lead_form);
       setLead(data.lead);
       if (data.signals) setSignals(data.signals);
+      if (data.source === "devrev" && !(data.panel?.products || []).length) {
+        void refreshPanel(sid, ++refreshGen.current);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not reach the store manager.");
     } finally {
@@ -126,9 +133,30 @@ export function DecideExperience() {
     }
   }
 
+  async function refreshPanel(sid: string, gen: number) {
+    for (let i = 0; i < 4; i += 1) {
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      if (refreshGen.current !== gen) return;
+      try {
+        const res = await fetch(`/api/agent/session?session_id=${encodeURIComponent(sid)}`);
+        if (!res.ok) continue;
+        const snap = (await res.json()) as { panel?: PanelState; chips?: AgentChip[] };
+        if (refreshGen.current !== gen) return;
+        if (snap.panel?.products?.length) {
+          setPanel((prev) => mergePanels(prev, snap.panel));
+          if (snap.chips?.length) setChips(snap.chips);
+          return;
+        }
+      } catch {
+        /* keep the last panel; next poll retries */
+      }
+    }
+  }
+
   function start() {
     if (startedRef.current) return;
     startedRef.current = true;
+    refreshGen.current += 1;
     setStarted(true);
     setMessages([]);
     setChips([]);
@@ -266,24 +294,7 @@ export function DecideExperience() {
               {sortedPanel.length ? (
                 <div className="panel-grid">
                   {sortedPanel.map((p) => (
-                    <article
-                      key={p.product_id}
-                      className={`panel-card ${p.emphasized || p.product_id === emphasized ? "emphasized" : "soft"}`}
-                    >
-                      {p.image_url ? (
-                        <Image src={p.image_url} alt={p.name} width={320} height={320} />
-                      ) : (
-                        <div className="media" />
-                      )}
-                      <div className="card-body">
-                        <p className="role">{p.emphasized ? "Best match from the catalog" : p.role.replace(/_/g, " ")}</p>
-                        <div className="meta-row">
-                          <h3>{p.name}</h3>
-                          <span className="price">{p.price}</span>
-                        </div>
-                        <p>{p.what_it_does}</p>
-                      </div>
-                    </article>
+                    <PanelKitCard key={p.product_id} product={p} emphasized={Boolean(p.emphasized || p.product_id === emphasized)} />
                   ))}
                 </div>
               ) : (
@@ -294,5 +305,42 @@ export function DecideExperience() {
         </main>
       )}
     </>
+  );
+}
+
+const ROLE_LABEL: Record<string, string> = {
+  core_kit: "Core kit",
+  special_edition_kit: "Special edition",
+  accessory: "Accessory",
+};
+
+function PanelKitCard({ product, emphasized }: { product: PanelProduct; emphasized: boolean }) {
+  const role = product.role ? ROLE_LABEL[product.role] || product.role.replace(/_/g, " ") : "";
+  return (
+    <article className={`panel-card ${emphasized ? "emphasized" : "soft"}`}>
+      {product.image_url ? (
+        <Image src={product.image_url} alt={product.name} width={320} height={320} />
+      ) : (
+        <div className="media" aria-hidden />
+      )}
+      <div className="card-body">
+        <p className="role">{emphasized ? "Best match from the catalog" : role}</p>
+        <div className="meta-row">
+          <h3>{product.name}</h3>
+          {product.price ? <span className="price">{product.price}</span> : null}
+        </div>
+        {product.what_it_does ? <p>{product.what_it_does}</p> : null}
+        <div className="panel-card-actions">
+          <Link className="btn secondary" href={`/products/${product.product_id}`}>
+            View kit
+          </Link>
+          {product.url ? (
+            <a className="btn" href={product.url} target="_blank" rel="noreferrer">
+              Buy
+            </a>
+          ) : null}
+        </div>
+      </div>
+    </article>
   );
 }

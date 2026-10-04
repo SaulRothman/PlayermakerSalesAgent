@@ -25,8 +25,8 @@ import type { AgentTurnRequest, AgentTurnResponse } from "@/lib/agent-protocol";
 import { cleanSignals } from "@/lib/signals";
 import { cancelWait, replyTimeoutMs, waitForWebhookReply } from "@/server/devrev-wait";
 
-export { ingestDevRevEvent, waitForWebhookReply } from "@/server/devrev-wait";
-export { leadFromSkillOutput, panelFromSkillOutput } from "@/server/devrev-parse";
+export { ingestDevRevEvent, peekSession, waitForWebhookReply } from "@/server/devrev-wait";
+export { leadFromSkillOutput, mergePanels, panelFromSkillOutput } from "@/server/devrev-parse";
 
 export function devrevConfigured(): boolean {
   return Boolean(

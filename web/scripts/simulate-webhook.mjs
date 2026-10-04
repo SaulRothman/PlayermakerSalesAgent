@@ -71,9 +71,11 @@ const MATCH_OUTPUT = {
   product: {
     product_id: "playermaker-2.0",
     name: "Playermaker 2.0",
-    price: "$199",
+    price: "199.00",
+    currency: "USD",
+    url: "https://www.playermaker.com/products/playermaker",
     image_url: null,
-    role: "primary",
+    role: "core_kit",
     what_it_does: "Smart football tracker for the boot.",
   },
 };
@@ -260,6 +262,39 @@ async function testOutOfOrder() {
   ok("out-of-order message then skill_executed still attaches panel");
 }
 
+async function testWrappedHttpSkillOutput() {
+  const sid = `harness-httpwrap-${Date.now()}`;
+  const waiting = startWait(sid);
+  await sleep(40);
+  const skill = await post(
+    "/api/agent/events",
+    envelope(sid, `${sid}-skill`, {
+      progress: {
+        progress_state: "skill_executed",
+        skill_executed: {
+          skill_name: "fit_match",
+          output: { status_code: 200, body: JSON.stringify(MATCH_OUTPUT) },
+        },
+      },
+    }),
+  );
+  assert(skill.status === 200 && skill.data.ok, `wrap skill ${JSON.stringify(skill)}`);
+  const msg = await post(
+    "/api/agent/events",
+    envelope(sid, `${sid}-msg`, {
+      agent_response: "message",
+      messages: [{ role: "agent", text: "CITYPLAY from the catalog." }],
+    }),
+  );
+  assert(msg.status === 200, `wrap msg ${JSON.stringify(msg)}`);
+  const { status, data } = await waiting;
+  assert(status === 200, `wrap wait ${status}`);
+  assert(data.panel?.outcome === "match", `wrap panel ${JSON.stringify(data.panel)}`);
+  assert(data.panel.products?.[0]?.product_id === "playermaker-2.0", "wrap product_id");
+  assert(data.panel.products?.[0]?.url?.includes("playermaker.com"), "wrap buy url");
+  ok("HTTP-wrapped skill output still fills the options panel");
+}
+
 async function testEarlyWebhook() {
   const sid = `harness-early-${Date.now()}`;
   const ev = await post(
@@ -318,6 +353,7 @@ async function main() {
     },
     testLeadAck,
     testOutOfOrder,
+    testWrappedHttpSkillOutput,
     testEarlyWebhook,
     testTimeout,
     testThinkingCopy,

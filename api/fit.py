@@ -98,6 +98,8 @@ def summarize(product: dict[str, Any] | None) -> ProductSummary | None:
         return None
     price, currency, available = first_price(product)
     desc = product.get("description") or {}
+    media = product.get("media") or []
+    image = media[0].get("url") if media and isinstance(media[0], dict) else None
     return ProductSummary(
         product_id=product["product_id"],
         name=product.get("name") or product["product_id"],
@@ -107,6 +109,7 @@ def summarize(product: dict[str, Any] | None) -> ProductSummary | None:
         currency=currency,
         available=available,
         what_it_does=desc.get("what_it_does"),
+        image_url=image,
         gaps=list(product.get("gaps") or []),
     )
 

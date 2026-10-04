@@ -12,7 +12,13 @@ import type {
 } from "@/lib/agent-protocol";
 import { cleanSignals } from "@/lib/signals";
 
-import { asChips, asMessages, leadFromSkillOutput, panelFromSkillOutput } from "@/server/devrev-parse";
+import {
+  asChips,
+  asMessages,
+  leadFromSkillOutput,
+  panelFromSkillOutput,
+  unwrapFitPayload,
+} from "@/server/devrev-parse";
 
 export const DEFAULT_REPLY_TIMEOUT_MS = 25_000;
 export const FALLBACK_TEXT =
@@ -39,7 +45,7 @@ const pageToDon = new Map<string, string>();
 const donToPage = new Map<string, string>();
 
 /** Let a trailing skill_executed attach before we settle a message-only event. */
-const SETTLE_GRACE_MS = 150;
+const SETTLE_GRACE_MS = 800;
 
 function emptyPanel(): PanelState {
   return { outcome: "none", emphasized_product_id: null, products: [], why: null };
@@ -230,6 +236,19 @@ export function waitForWebhookReply(
   });
 }
 
+export function peekSession(sessionId: string): {
+  panel: PanelState;
+  chips: AgentChip[];
+  lead_form: LeadFormState | null;
+  lead: LeadResult | null;
+} {
+  const box = inboxes.get(sessionId);
+  if (!box) {
+    return { panel: emptyPanel(), chips: [], lead_form: null, lead: null };
+  }
+  return { panel: box.panel, chips: box.chips, lead_form: box.lead_form, lead: box.lead };
+}
+
 export function applySkillOutput(box: Inbox, output: unknown): void {
   const panel = panelFromSkillOutput(output);
   if (panel) box.panel = panel;
@@ -299,7 +318,8 @@ export function ingestDevRevEvent(body: Record<string, unknown>, headers?: Heade
   }
 
   const kind = classify(inner);
-  if (kind === "unknown") {
+  const skillPayload = extractSkillOutput(inner);
+  if (kind === "unknown" && !skillPayload) {
     return { ok: false, status: 400, error: "unrecognized DevRev event (need agent_response, progress, messages, or message)" };
   }
 
@@ -310,10 +330,13 @@ export function ingestDevRevEvent(body: Record<string, unknown>, headers?: Heade
   }
   box.seen.add(key);
 
-  if (kind === "progress") {
+  if (skillPayload) applySkillOutput(box, skillPayload);
+
+  if (kind === "progress" || (kind === "unknown" && skillPayload)) {
     const progress = (inner.progress && typeof inner.progress === "object" ? inner.progress : {}) as Record<string, unknown>;
-    const executed = progress.skill_executed as { output?: unknown } | undefined;
+    const executed = (progress.skill_executed || inner.skill_executed) as { output?: unknown; result?: unknown } | undefined;
     if (executed?.output) applySkillOutput(box, executed.output);
+    if (executed?.result) applySkillOutput(box, executed.result);
     if (box.queued) box.queued = mergeReply(box, box.queued);
     if (box.settled && !box.waiter) return { ok: true, status: 200, late: true };
     return { ok: true, status: 200 };
@@ -368,6 +391,23 @@ function scheduleSettle(sessionId: string, box: Inbox, merged: AgentTurnResponse
   }, SETTLE_GRACE_MS);
 }
 
+function extractSkillOutput(inner: Record<string, unknown>): unknown {
+  const progress = inner.progress && typeof inner.progress === "object" ? (inner.progress as Record<string, unknown>) : {};
+  const executed = (progress.skill_executed || inner.skill_executed) as Record<string, unknown> | undefined;
+  const candidates = [
+    executed?.output,
+    executed?.result,
+    inner.skill_output,
+    inner.output,
+    inner.result,
+    inner,
+  ];
+  for (const candidate of candidates) {
+    if (unwrapFitPayload(candidate)) return candidate;
+  }
+  return null;
+}
+
 function classify(inner: Record<string, unknown>): "challenge" | "progress" | "message" | "error" | "unknown" {
   if (inner.agent_response === "error" || inner.error) return "error";
   if (inner.agent_response === "progress" || (inner.progress && typeof inner.progress === "object")) return "progress";
@@ -380,6 +420,7 @@ function classify(inner: Record<string, unknown>): "challenge" | "progress" | "m
   ) {
     return "message";
   }
+  if (extractSkillOutput(inner)) return "progress";
   return "unknown";
 }
 
@@ -418,7 +459,11 @@ function toReply(
 ): AgentTurnResponse | null {
   const messages = asMessages(inner.messages || data.messages || inner.message);
   if (!messages.length) return null;
-  const panel = panelFromSkillOutput(inner.panel) || panelFromSkillOutput(inner) || box.panel;
+  const panel =
+    panelFromSkillOutput(inner.panel) ||
+    panelFromSkillOutput(extractSkillOutput(inner)) ||
+    panelFromSkillOutput(inner) ||
+    box.panel;
   return {
     session_id: sessionId,
     messages,

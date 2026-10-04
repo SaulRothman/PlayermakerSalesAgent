@@ -54,6 +54,7 @@ function toPanelProducts(products: Product[], emphasized: string | null): PanelP
     name: p.name,
     price: firstPrice(p),
     image_url: firstImage(p),
+    url: p.url || null,
     role: p.role,
     what_it_does: p.description.what_it_does,
     emphasized: p.product_id === emphasized,

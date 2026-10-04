@@ -18,6 +18,7 @@ export type PanelProduct = {
   name: string;
   price: string;
   image_url: string | null;
+  url: string | null;
   role: string;
   what_it_does: string;
   emphasized: boolean;
@@ -29,6 +30,17 @@ export type PanelState = {
   products: PanelProduct[];
   why: string | null;
 };
+
+/** Keep a filled options panel across later chat turns that don't re-send products. */
+export function mergePanels(prev: PanelState | null | undefined, next: PanelState | null | undefined): PanelState | null {
+  if (!next) return prev || null;
+  if (next.products.length) return next;
+  if (next.outcome === "honest_no" || next.outcome === "lead") return next;
+  if (prev?.products.length) {
+    return { ...prev, why: next.why || prev.why, outcome: next.outcome !== "none" ? next.outcome : prev.outcome };
+  }
+  return next.outcome !== "none" || next.why ? next : prev || next;
+}
 
 export type UtmContext = {
   source?: string;

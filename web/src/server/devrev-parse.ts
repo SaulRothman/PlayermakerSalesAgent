@@ -1,4 +1,7 @@
 import type { AgentChip, AgentMessage, LeadResult, PanelProduct, PanelState } from "@/lib/agent-protocol";
+export { mergePanels } from "@/lib/agent-protocol";
+
+const OUTCOMES = new Set(["match", "accessory", "honest_no", "lead", "need_more"]);
 
 export function asMessages(raw: unknown): AgentMessage[] {
   if (typeof raw === "string" && raw.trim()) {
@@ -39,62 +42,173 @@ export function asChips(raw: unknown): AgentChip[] {
     .filter((c): c is AgentChip => Boolean(c));
 }
 
-function productCard(raw: Record<string, unknown>, emphasized: boolean): PanelProduct {
-  return {
-    product_id: String(raw.product_id || raw.id || ""),
-    name: String(raw.name || raw.product_id || ""),
-    price: String(raw.price || ""),
-    image_url: typeof raw.image_url === "string" ? raw.image_url : null,
-    role: String(raw.role || ""),
-    what_it_does: String(raw.what_it_does || ""),
-    emphasized,
-  };
+function parseJson(raw: unknown): unknown {
+  if (typeof raw !== "string") return raw;
+  const text = raw.trim();
+  if (!text.startsWith("{") && !text.startsWith("[")) return raw;
+  try {
+    return JSON.parse(text);
+  } catch {
+    return raw;
+  }
 }
 
-export function panelFromSkillOutput(output: unknown): PanelState | null {
-  if (!output || typeof output !== "object") return null;
-  const rec = output as Record<string, unknown>;
-  if (Array.isArray(rec.products) && rec.outcome) {
-    const emphasized = (rec.emphasized_product_id as string | null) || null;
-    return {
-      outcome: rec.outcome as PanelState["outcome"],
-      emphasized_product_id: emphasized,
-      products: (rec.products as Record<string, unknown>[]).map((p) =>
-        productCard(p, Boolean(p.emphasized) || p.product_id === emphasized),
-      ),
-      why: typeof rec.why === "string" ? rec.why : null,
-    };
+function asRecord(raw: unknown): Record<string, unknown> | null {
+  const value = parseJson(raw);
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  return value as Record<string, unknown>;
+}
+
+function looksLikeFit(rec: Record<string, unknown>): boolean {
+  if (OUTCOMES.has(String(rec.outcome || ""))) return true;
+  if (rec.best_fit_product_id) return true;
+  if (rec.product && typeof rec.product === "object") return true;
+  if (Array.isArray(rec.products) && rec.products.some(isProductish)) return true;
+  if (Array.isArray(rec.alternatives) && rec.alternatives.some(isProductish)) return true;
+  return false;
+}
+
+function isProductish(value: unknown): boolean {
+  if (!value || typeof value !== "object") return false;
+  const rec = value as Record<string, unknown>;
+  return Boolean(rec.product_id || rec.id || rec.name);
+}
+
+/** DevRev HTTP skills often wrap the catalog JSON in body/data/output (sometimes as a string). */
+export function unwrapFitPayload(raw: unknown, depth = 0): Record<string, unknown> | null {
+  if (depth > 6 || raw == null) return null;
+  const parsed = parseJson(raw);
+  if (Array.isArray(parsed)) {
+    for (const item of parsed) {
+      const found = unwrapFitPayload(item, depth + 1);
+      if (found) return found;
+    }
+    return null;
   }
-  if (rec.outcome && (rec.best_fit_product_id !== undefined || rec.why !== undefined || rec.product)) {
-    const outcome = String(rec.outcome) as PanelState["outcome"];
-    const emphasized = (rec.best_fit_product_id as string | null) || null;
-    const products: PanelProduct[] = [];
-    if (rec.product && typeof rec.product === "object") {
-      products.push(productCard(rec.product as Record<string, unknown>, true));
+  const rec = asRecord(parsed);
+  if (!rec) return null;
+  if (looksLikeFit(rec)) return rec;
+  for (const key of [
+    "body",
+    "data",
+    "result",
+    "output",
+    "response",
+    "skill_output",
+    "skill_executed",
+    "recommendation",
+    "payload",
+    "fit_match",
+    "fit_explain",
+    "fit_compare",
+  ]) {
+    if (key in rec) {
+      const found = unwrapFitPayload(rec[key], depth + 1);
+      if (found) return found;
     }
-    for (const alt of (rec.alternatives as Record<string, unknown>[]) || []) {
-      if (alt && typeof alt === "object") products.push(productCard(alt, false));
-    }
-    return {
-      outcome:
-        outcome === "match" ||
-        outcome === "accessory" ||
-        outcome === "honest_no" ||
-        outcome === "lead" ||
-        outcome === "need_more"
-          ? outcome
-          : "none",
-      emphasized_product_id: emphasized,
-      products,
-      why: typeof rec.why === "string" ? rec.why : null,
-    };
   }
   return null;
 }
 
+function nestedString(raw: Record<string, unknown>, path: string[]): string {
+  let cur: unknown = raw;
+  for (const key of path) {
+    if (!cur || typeof cur !== "object") return "";
+    cur = (cur as Record<string, unknown>)[key];
+  }
+  return typeof cur === "string" ? cur : "";
+}
+
+function formatPrice(raw: Record<string, unknown>): string {
+  const variant =
+    Array.isArray(raw.variants) && raw.variants[0] && typeof raw.variants[0] === "object"
+      ? (raw.variants[0] as Record<string, unknown>)
+      : {};
+  const price = String(raw.price || variant.price || "").trim();
+  if (!price) return "";
+  if (/^[^\d]/.test(price)) return price.replace(/\.00$/, "");
+  const currency = String(raw.currency || variant.currency || "USD");
+  const compact = price.replace(/\.00$/, "");
+  return currency === "USD" ? `$${compact}` : `${currency} ${compact}`;
+}
+
+function productCard(raw: Record<string, unknown>, emphasized: boolean): PanelProduct | null {
+  const product_id = String(raw.product_id || raw.id || "").trim();
+  const name = String(raw.name || product_id || "").trim();
+  if (!product_id && !name) return null;
+  const media0 =
+    Array.isArray(raw.media) && raw.media[0] && typeof raw.media[0] === "object"
+      ? (raw.media[0] as Record<string, unknown>)
+      : {};
+  const image =
+    (typeof raw.image_url === "string" && raw.image_url) ||
+    (typeof media0.url === "string" && media0.url) ||
+    null;
+  const url = typeof raw.url === "string" && raw.url.trim() ? raw.url.trim() : null;
+  return {
+    product_id: product_id || name,
+    name: name || product_id,
+    price: formatPrice(raw),
+    image_url: image,
+    url,
+    role: String(raw.role || ""),
+    what_it_does: String(raw.what_it_does || nestedString(raw, ["description", "what_it_does"]) || ""),
+    emphasized,
+  };
+}
+
+function collectProducts(rec: Record<string, unknown>, emphasized: string | null): PanelProduct[] {
+  const cards: PanelProduct[] = [];
+  const seen = new Set<string>();
+  const push = (raw: unknown, forceEmphasized: boolean) => {
+    if (!raw || typeof raw !== "object") return;
+    const card = productCard(raw as Record<string, unknown>, forceEmphasized);
+    if (!card) return;
+    if (seen.has(card.product_id)) return;
+    seen.add(card.product_id);
+    cards.push({
+      ...card,
+      emphasized: forceEmphasized || card.product_id === emphasized || Boolean((raw as { emphasized?: boolean }).emphasized),
+    });
+  };
+
+  push(rec.product, true);
+  if (Array.isArray(rec.products)) {
+    for (const item of rec.products) push(item, false);
+  }
+  if (Array.isArray(rec.alternatives)) {
+    for (const item of rec.alternatives) push(item, false);
+  }
+  return cards;
+}
+
+export function panelFromSkillOutput(output: unknown): PanelState | null {
+  const rec = unwrapFitPayload(output);
+  if (!rec) return null;
+
+  const rawOutcome = String(rec.outcome || "");
+  const outcome = OUTCOMES.has(rawOutcome) ? (rawOutcome as PanelState["outcome"]) : "none";
+  const emphasized =
+    (typeof rec.best_fit_product_id === "string" && rec.best_fit_product_id) ||
+    (rec.product && typeof rec.product === "object"
+      ? String((rec.product as Record<string, unknown>).product_id || "")
+      : "") ||
+    null;
+  const products = collectProducts(rec, emphasized || null);
+
+  if (!products.length && outcome === "none" && !rec.why) return null;
+
+  return {
+    outcome,
+    emphasized_product_id: emphasized || products.find((p) => p.emphasized)?.product_id || null,
+    products,
+    why: typeof rec.why === "string" ? rec.why : null,
+  };
+}
+
 export function leadFromSkillOutput(output: unknown): LeadResult | null {
-  if (!output || typeof output !== "object") return null;
-  const rec = output as Record<string, unknown>;
+  const rec = asRecord(output);
+  if (!rec) return null;
   const lead = (rec.lead && typeof rec.lead === "object" ? rec.lead : rec) as Record<string, unknown>;
   const pipeline = (lead.pipeline && typeof lead.pipeline === "object" ? lead.pipeline : {}) as Record<
     string,

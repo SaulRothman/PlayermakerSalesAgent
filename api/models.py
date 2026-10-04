@@ -45,6 +45,7 @@ class ProductSummary(BaseModel):
     currency: str | None = None
     available: bool | None = None
     what_it_does: str | None = None
+    image_url: str | None = None
     gaps: list[str] = Field(default_factory=list)
 
 
