@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-04T09:27:12Z",
+  "rules": [
+    {
+      "rule_id": "age-under-8",
+      "priority": 10,
+      "signals": {
+        "age_max": 7
+      },
+      "best_fit_product_id": null,
+      "outcome": "honest_no",
+      "why": "Playermaker says it is designed for footballers starting from 8 years old. Under 8 is outside the stated range.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq",
+        "https://www.playermaker.com/"
+      ]
+    },
+    {
+      "rule_id": "wants-replacement-or-colored-straps",
+      "priority": 20,
+      "signals": {
+        "already_owns_kit": true,
+        "needs": [
+          "extra_straps",
+          "colored_straps",
+          "replacement_straps"
+        ]
+      },
+      "best_fit_product_id": "extra-straps",
+      "outcome": "accessory",
+      "why": "Extra Straps are the storefront accessory for holding existing Playermaker sensors; they are not a tracker kit.",
+      "source_urls": [
+        "https://www.playermaker.com/products/playermaker-cityplay-straps"
+      ]
+    },
+    {
+      "rule_id": "team-or-club-buy",
+      "priority": 30,
+      "signals": {
+        "buyer_type": "team_or_club"
+      },
+      "best_fit_product_id": null,
+      "outcome": "lead",
+      "why": "The B2C catalog has individual kits only. FAQ says teams get separate packages and a Coach Dashboard at different price points — those SKUs are not in the public product list.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq",
+        "https://www.playermaker.com/pages/team-solution",
+        "https://www.playermaker.com/pages/teams"
+      ]
+    },
+    {
+      "rule_id": "wants-man-city-coaching-content",
+      "priority": 40,
+      "signals": {
+        "age_min": 8,
+        "wants_man_city_content": true
+      },
+      "best_fit_product_id": "cityplay",
+      "outcome": "match",
+      "why": "FAQ: both kits share the same tracking technology; CITYPLAY adds Manchester City in-app coaching content, drills, and occasional Man City offers.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq",
+        "https://www.playermaker.com/"
+      ]
+    },
+    {
+      "rule_id": "core-tracker-no-man-city",
+      "priority": 50,
+      "signals": {
+        "age_min": 8,
+        "wants_man_city_content": false
+      },
+      "best_fit_product_id": "playermaker-2.0",
+      "outcome": "match",
+      "why": "FAQ: Playermaker 2.0 is the core tracking system at the lower kit price; CITYPLAY's difference is exclusive Man City content, not different sensors.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq",
+        "https://www.playermaker.com/products/playermaker"
+      ]
+    },
+    {
+      "rule_id": "goalkeeper-age-8-plus",
+      "priority": 60,
+      "signals": {
+        "age_min": 8,
+        "position": "goalkeeper"
+      },
+      "best_fit_product_id": "playermaker-2.0",
+      "outcome": "match",
+      "why": "FAQ says goalkeepers can use Playermaker (explosive movement, kick power, first touch, distribution). Hardware is the same on CITYPLAY; pick CITYPLAY only if they also want Man City content.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "rule_id": "indoor-or-futsal",
+      "priority": 70,
+      "signals": {
+        "age_min": 8,
+        "environment": [
+          "indoor",
+          "futsal"
+        ]
+      },
+      "best_fit_product_id": "playermaker-2.0",
+      "outcome": "match",
+      "why": "FAQ and how-it-works: recording does not need GPS or Wi-Fi; indoor and futsal are supported. Kit choice still follows the Man City content preference.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq",
+        "https://www.playermaker.com/pages/how-it-works"
+      ]
+    }
+  ]
+}

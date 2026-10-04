@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-04T09:27:12Z",
+  "counts": {
+    "products": 3,
+    "variants": 16,
+    "fit_rules": 7,
+    "objections": 38,
+    "source_pages": 105,
+    "source_pages_http_200": 105,
+    "gaps": 21,
+    "thin_pages": 0,
+    "comparison_points": 7
+  },
+  "product_ids": [
+    "playermaker-2.0",
+    "cityplay",
+    "extra-straps"
+  ],
+  "gap_ids": [
+    "playermaker-2.0-age-max",
+    "playermaker-2.0-size-system-unlabeled",
+    "playermaker-2.0-os-requirements",
+    "playermaker-2.0-battery-capacity",
+    "cityplay-age-max",
+    "cityplay-size-system-unlabeled",
+    "cityplay-os-requirements",
+    "cityplay-battery-capacity",
+    "extra-straps-size-system-unlabeled",
+    "water-claim-conflict",
+    "sensor-weight-conflict",
+    "skill-count-conflict",
+    "size-band-overlap",
+    "extra-straps-size-copy-conflict",
+    "pdp-template-bleed",
+    "shipping-policy-unextracted",
+    "returns-policy-unextracted",
+    "no-dedicated-sizing-or-compare-url",
+    "inventory-quantity-not-public",
+    "black-strap-sku-pattern",
+    "android-page-empty"
+  ],
+  "re_run": "python3 scripts/scan_playermaker.py"
+}

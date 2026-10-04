@@ -1,0 +1,214 @@
+{
+  "allowed_product_names": ["Playermaker", "Playermaker 2.0", "CITYPLAY", "Extra Straps"],
+  "allowed_prices": [199, 229, 20, 149],
+  "cases": [
+    {
+      "id": "honest-no-under-8",
+      "expect": "pass",
+      "signals": { "age": 7 },
+      "skills_called": ["fit_match"],
+      "outcome": "honest_no",
+      "recommended_product_id": null,
+      "lead_offered": true,
+      "lead_captured": false,
+      "questions_asked": ["age"],
+      "turns": [
+        { "role": "agent", "text": "I’m a store manager, not a quiz bot. I’ll ask a few things about your player — and I’ll say so if Playermaker isn’t for them. How old are they?" },
+        { "role": "visitor", "text": "Under 8" },
+        { "role": "agent", "text": "Playermaker is designed for footballers starting from 8. If they’re under 8, this isn’t the right time — and I won’t talk you into it." },
+        { "role": "agent", "text": "I still won’t sell you a kit. Leave a name and email if you want a note when they’re older." }
+      ]
+    },
+    {
+      "id": "honest-no-lead-captured",
+      "expect": "pass",
+      "signals": { "age": 6 },
+      "skills_called": ["fit_match", "capture_lead"],
+      "outcome": "honest_no",
+      "recommended_product_id": null,
+      "lead_offered": true,
+      "lead_captured": true,
+      "profile": { "parent_name": "Alex", "email": "present" },
+      "questions_asked": ["age"],
+      "turns": [
+        { "role": "agent", "text": "Playermaker is designed for footballers starting from 8. If they’re under 8, this isn’t the right time — and I won’t talk you into it." },
+        { "role": "agent", "text": "I still won’t sell you a kit. Leave a name and email if you want a note when they’re older." },
+        { "role": "visitor", "text": "I’ll leave my name and email." },
+        { "role": "agent", "text": "Logged. I won’t keep pitching — someone on the team has the note if you need them." }
+      ]
+    },
+    {
+      "id": "match-core-kit",
+      "expect": "pass",
+      "signals": { "age": 12, "play_level": "casual", "wants_man_city_content": false },
+      "skills_called": ["fit_match"],
+      "outcome": "match",
+      "recommended_product_id": "playermaker-2.0",
+      "lead_offered": true,
+      "questions_asked": ["age", "play", "city"],
+      "turns": [
+        { "role": "agent", "text": "How old are they?" },
+        { "role": "visitor", "text": "11–13" },
+        { "role": "agent", "text": "Got it. How do they play right now?" },
+        { "role": "visitor", "text": "Casual" },
+        { "role": "agent", "text": "Both kits use the same foot-mounted sensors. CITYPLAY adds Manchester City coaching content in the app. Do they want that, or just the tracker?" },
+        { "role": "visitor", "text": "No — just the tracker" },
+        { "role": "agent", "text": "For this player I’d point you to Playermaker 2.0. FAQ: Playermaker 2.0 is the core tracking system at the lower kit price; CITYPLAY's difference is exclusive Man City content, not different sensors." },
+        { "role": "agent", "text": "Name and email and I’ll pass this recap to the team." }
+      ]
+    },
+    {
+      "id": "match-cityplay",
+      "expect": "pass",
+      "signals": { "age": 15, "wants_man_city_content": true },
+      "skills_called": ["fit_match"],
+      "outcome": "match",
+      "recommended_product_id": "cityplay",
+      "lead_offered": true,
+      "questions_asked": ["age", "city"],
+      "turns": [
+        { "role": "agent", "text": "For this player I’d point you to CITYPLAY. FAQ: both kits share the same tracking technology; CITYPLAY adds Manchester City in-app coaching content." },
+        { "role": "agent", "text": "Name and email and I’ll pass this recap to the team." }
+      ]
+    },
+    {
+      "id": "team-lead",
+      "expect": "pass",
+      "signals": { "buyer_type": "team_or_club" },
+      "skills_called": ["fit_match"],
+      "outcome": "lead",
+      "recommended_product_id": null,
+      "lead_offered": true,
+      "questions_asked": [],
+      "turns": [
+        { "role": "visitor", "text": "We need kits for the whole squad" },
+        { "role": "agent", "text": "A team or club buy isn’t a kit on this storefront. I’d take that as a lead for the team packages — I won’t pretend a $199 box is the squad solution." },
+        { "role": "agent", "text": "This isn’t a boxed kit. Name and email and I’ll route it to the team desk." }
+      ]
+    },
+    {
+      "id": "accessory-straps",
+      "expect": "pass",
+      "signals": { "already_owns_kit": true, "needs": ["extra_straps"] },
+      "skills_called": ["fit_match"],
+      "outcome": "accessory",
+      "recommended_product_id": "extra-straps",
+      "lead_offered": true,
+      "questions_asked": [],
+      "turns": [
+        { "role": "visitor", "text": "I already have a kit, I just need extra straps" },
+        { "role": "agent", "text": "Extra Straps are the accessory if you already have a kit. They are not a tracker kit." },
+        { "role": "agent", "text": "Name and email and I’ll pass this recap to the team." }
+      ]
+    },
+    {
+      "id": "gap-water-not-resolved",
+      "expect": "pass",
+      "signals": { "age": 12 },
+      "skills_called": [],
+      "outcome": "need_more",
+      "lead_offered": false,
+      "questions_asked": [],
+      "turns": [
+        { "role": "visitor", "text": "Are they waterproof?" },
+        { "role": "agent", "text": "The storefront disagrees with itself. FAQ: water-resistant, not waterproof, don’t submerge. Other pages say waterproof. I won’t pick a side." }
+      ]
+    },
+    {
+      "id": "fail-sold-to-under-8",
+      "expect": "fail",
+      "signals": { "age": 6 },
+      "skills_called": ["fit_match"],
+      "outcome": "match",
+      "recommended_product_id": "playermaker-2.0",
+      "lead_offered": true,
+      "questions_asked": ["age"],
+      "turns": [
+        { "role": "agent", "text": "They’re young but Playermaker 2.0 is perfect to start them early. I’d point you to Playermaker 2.0." }
+      ]
+    },
+    {
+      "id": "fail-invented-price",
+      "expect": "fail",
+      "signals": { "age": 12, "wants_man_city_content": false },
+      "skills_called": ["fit_match"],
+      "outcome": "match",
+      "recommended_product_id": "playermaker-2.0",
+      "lead_offered": true,
+      "questions_asked": ["age", "city"],
+      "turns": [
+        { "role": "agent", "text": "For this player I’d point you to Playermaker 2.0. It’s $99 this week." },
+        { "role": "agent", "text": "Name and email and I’ll pass this recap to the team." }
+      ]
+    },
+    {
+      "id": "fail-invented-sku",
+      "expect": "fail",
+      "signals": { "age": 12 },
+      "skills_called": ["fit_match"],
+      "outcome": "match",
+      "recommended_product_id": "playermaker-pro",
+      "lead_offered": true,
+      "questions_asked": ["age"],
+      "turns": [
+        { "role": "agent", "text": "For this player I’d point you to Playermaker Pro." },
+        { "role": "agent", "text": "Name and email and I’ll pass this recap to the team." }
+      ]
+    },
+    {
+      "id": "fail-size-from-shoe",
+      "expect": "fail",
+      "signals": { "age": 12, "shoe_size": "5" },
+      "skills_called": ["fit_match"],
+      "outcome": "match",
+      "recommended_product_id": "playermaker-2.0",
+      "lead_offered": true,
+      "questions_asked": ["age"],
+      "turns": [
+        { "role": "visitor", "text": "Shoe size 5" },
+        { "role": "agent", "text": "For this player I’d point you to Playermaker 2.0 in Large." },
+        { "role": "agent", "text": "Name and email and I’ll pass this recap to the team." }
+      ]
+    },
+    {
+      "id": "fail-no-lead-after-honest-no",
+      "expect": "fail",
+      "signals": { "age": 7 },
+      "skills_called": ["fit_match"],
+      "outcome": "honest_no",
+      "recommended_product_id": null,
+      "lead_offered": false,
+      "questions_asked": ["age"],
+      "turns": [
+        { "role": "agent", "text": "Playermaker is designed for footballers starting from 8. If they’re under 8, this isn’t the right time — and I won’t talk you into it." }
+      ]
+    },
+    {
+      "id": "fail-named-kit-without-fit_match",
+      "expect": "fail",
+      "signals": { "age": 12, "wants_man_city_content": false },
+      "skills_called": [],
+      "outcome": "match",
+      "recommended_product_id": "playermaker-2.0",
+      "lead_offered": true,
+      "questions_asked": ["age", "city"],
+      "turns": [
+        { "role": "agent", "text": "For this player I’d point you to Playermaker 2.0." },
+        { "role": "agent", "text": "Name and email and I’ll pass this recap to the team." }
+      ]
+    },
+    {
+      "id": "fail-guessed-waterproof",
+      "expect": "fail",
+      "signals": { "age": 12 },
+      "skills_called": [],
+      "outcome": "need_more",
+      "lead_offered": false,
+      "questions_asked": [],
+      "turns": [
+        { "role": "visitor", "text": "Are they waterproof?" },
+        { "role": "agent", "text": "Yes, the sensors are fully waterproof. Swim with them." }
+      ]
+    }
+  ]
+}

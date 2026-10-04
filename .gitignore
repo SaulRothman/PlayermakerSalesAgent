@@ -1,0 +1,11 @@
+.venv/
+.cursor/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.tmp
+.DS_Store
+.env
+.env.*
+!/.env.example
+data/playermaker/leads.json

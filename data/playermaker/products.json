@@ -1,0 +1,1151 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-04T09:27:12Z",
+  "source": "https://www.playermaker.com",
+  "comparison": [
+    {
+      "topic": "hardware_and_tracking",
+      "playermaker-2.0": "Same advanced foot-mounted tracking system (FAQ: both use the same technology).",
+      "cityplay": "Same advanced foot-mounted tracking system (FAQ: both use the same technology).",
+      "extra-straps": "No sensors. Holds existing Playermaker sensors.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq",
+        "https://www.playermaker.com/"
+      ]
+    },
+    {
+      "topic": "price_usd",
+      "playermaker-2.0": "199.00",
+      "cityplay": "229.00",
+      "extra-straps": "20.00",
+      "source_urls": [
+        "https://www.playermaker.com/products/playermaker",
+        "https://www.playermaker.com/products/cityplay",
+        "https://www.playermaker.com/products/playermaker-cityplay-straps"
+      ]
+    },
+    {
+      "topic": "app",
+      "playermaker-2.0": "Playermaker 2.0 mobile-app (homepage comparison table).",
+      "cityplay": "CITYPLAY mobile-app (homepage comparison table).",
+      "extra-straps": "Not an app product.",
+      "source_urls": [
+        "https://www.playermaker.com/"
+      ]
+    },
+    {
+      "topic": "exclusive_content",
+      "playermaker-2.0": "Core tracking system; homepage comparison leaves CITYPLAY exclusive rows blank.",
+      "cityplay": "In-app video / tips from Man City talent-development coaches; personalised drills, tips, skill challenges; occasional Man City promotions.",
+      "extra-straps": "None.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq",
+        "https://www.playermaker.com/"
+      ]
+    },
+    {
+      "topic": "kit_contents",
+      "playermaker-2.0": "2 sensors, charging case + cable, 2 black straps, carry case, 12-month tracking.",
+      "cityplay": "2 sensors, charging case + cable, 2 black straps, carry case, Man City content + benefits, 12-month tracking.",
+      "extra-straps": "Straps only; color + size variants.",
+      "source_urls": [
+        "https://www.playermaker.com/products/playermaker",
+        "https://www.playermaker.com/products/cityplay",
+        "https://www.playermaker.com/products/playermaker-cityplay-straps"
+      ]
+    },
+    {
+      "topic": "size_options",
+      "playermaker-2.0": "Medium / Large (same on-page shoe bands as CITYPLAY).",
+      "cityplay": "Medium / Large (same on-page shoe bands as Playermaker 2.0).",
+      "extra-straps": "Medium / Large × Black, Blue, Red, White, Pink, Yellow.",
+      "source_urls": [
+        "https://www.playermaker.com/products/playermaker",
+        "https://www.playermaker.com/products/cityplay",
+        "https://www.playermaker.com/products/playermaker-cityplay-straps"
+      ]
+    },
+    {
+      "topic": "vs_gps_vest",
+      "playermaker-2.0": "Foot-mounted; technical + physical metrics; indoor + outdoor; listed weight 0.28 oz vs GPS 1.58 oz on PDP comparison table.",
+      "cityplay": "Same comparison table appears on CITYPLAY PDP.",
+      "extra-straps": "Not applicable.",
+      "source_urls": [
+        "https://www.playermaker.com/products/playermaker",
+        "https://www.playermaker.com/products/cityplay",
+        "https://www.playermaker.com/blogs/news/gps-vests-vs-football-tracker"
+      ]
+    }
+  ],
+  "products": [
+    {
+      "product_id": "playermaker-2.0",
+      "shopify_product_id": 7942205669546,
+      "handle": "playermaker",
+      "name": "Playermaker 2.0",
+      "url": "https://www.playermaker.com/products/playermaker",
+      "vendor": "Playermaker",
+      "role": "core_kit",
+      "description": {
+        "short": "Playermaker 2.0 kit including 2 sensors, strap at the size you select, charging case and a charging cable",
+        "full": "Playermaker 2.0 kit including 2 sensors, strap at the size you select, charging case and a charging cable FAQ: Playermaker 2.0 is the core tracking system; CITYPLAY adds the Manchester City experience.",
+        "what_it_does": "Foot-mounted wearable sensors that record every step and ball touch, then sync over Bluetooth to the Playermaker 2.0 app for technical and physical insights.",
+        "outcomes": [
+          "Site claim: average improvement among users in 90 days — Game Involvement 34%, Shooting Power 27%, Top speed / Sprint Speed 18%, Weak Foot Usage 45%",
+          "Personalized weekly Targets based on performance trends / Optimal Actions",
+          "Benchmark against personal bests, academy players, and professional players"
+        ],
+        "features": [
+          "6-axis motion smart sensors (gyroscope + accelerometer) sampling 1000 times/sec",
+          "Bluetooth sync; no Wi-Fi or GPS required to collect data",
+          "Works indoors and outdoors, including futsal",
+          "FIFA Quality certified for data quality and safety",
+          "Match Score and Spider Skill Chart (scores 40–99) after 3 matches"
+        ],
+        "whats_included": [
+          "Playermaker 2.0 smart sensors (left & right)",
+          "Charging case + cable",
+          "2 Black mounting straps (left & right)",
+          "Durable carry case",
+          "12-month performance tracking and personalized insight"
+        ],
+        "source_urls": [
+          "https://www.playermaker.com/products/playermaker",
+          "https://www.playermaker.com/products/playermaker.json"
+        ]
+      },
+      "variants": [
+        {
+          "variant_id": 45567706038442,
+          "title": "Medium",
+          "sku": "PLM2.0-M",
+          "barcode": "860008863133",
+          "price": "199.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Size": "Medium"
+          },
+          "option_names": [
+            "Size"
+          ],
+          "weight_grams": 300,
+          "image_url": null
+        },
+        {
+          "variant_id": 45567706071210,
+          "title": "Large",
+          "sku": "PLM2.0-L",
+          "barcode": "860008863119",
+          "price": "199.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Size": "Large"
+          },
+          "option_names": [
+            "Size"
+          ],
+          "weight_grams": 300,
+          "image_url": null
+        }
+      ],
+      "fit": {
+        "supported_age_range": {
+          "min": 8,
+          "max": null,
+          "raw_statements": [
+            "Playermaker is designed for soccer players of all ages, starting from 8 years old. From pro players to semi-pro and grassroots, Playermaker supports them all. With straps sized for both kids and adults, it’s built to fit every player and help them track and improve their game. Notably, 40% of our users are female players, reflecting the company’s commitment to serving and empowering the entire soccer community.",
+            "Playermaker is designed for soccer players of all ages starting from 8 years old. From pro players, to semi-pro, and grassroots, Playermaker supports them all. With straps sized for both kids and adults, it’s built to fit every player and help them track and improve their game. Notably, 40% of our users are female players, reflecting the company’s commitment to serving and empowering the entire soccer community.",
+            "Playermaker is designed for footballers starting from 8 years old.",
+            "Playermaker is designed for footballers of all ages starting from 8 years old. From pro players, to semi-pro, and grassroots, Playermaker supports it all. With straps sized for both kids and adults, it’s built to fit every player and help them track and improve their game. We are also very proud that 40% of our users are female players, reflecting our commitment to empowering the entire football community."
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/pages/faq",
+            "https://www.playermaker.com/products/playermaker"
+          ]
+        },
+        "size_shoe_bands": [
+          {
+            "label": "Medium",
+            "women": "3 - 8.5",
+            "men": "2.5 - 7",
+            "size_system": null,
+            "raw": "Women: 3 - 8.5 Men: 2.5 - 7",
+            "source_url": "https://www.playermaker.com/products/playermaker"
+          },
+          {
+            "label": "Large",
+            "women": "5 - 10.5",
+            "men": "3.5 - 9",
+            "size_system": null,
+            "raw": "Women: 5 - 10.5 Men: 3.5 - 9",
+            "source_url": "https://www.playermaker.com/products/playermaker"
+          }
+        ],
+        "attaches_how": {
+          "summary": "Insert the sensors into the silicone straps and attach the straps to the shoes/cleats.",
+          "raw_statements": [
+            "A shoe-mounted system that provides pro-level data on your game — no GPS, cameras, or infrastructure needed.",
+            "Insert the sensors into the straps and attach them to your shoes. Once secured, you’re ready to start.",
+            "The foot-mounted wearable transforming every ball touch and every move into actionable insights, and proven, lasting improvement.",
+            "No - the sensors are lightweight, waterproof, and sit securely in soft silicone straps that attach to your boots. They’re designed to feel natural, so once you start playing you won’t even notice them.",
+            "Both Playermaker 2.0 and CITYPLAY use the same advanced foot-mounted technology to deliver precise tracking and performance analysis.",
+            "Playermaker sensor system has been designed as an adaptable A cleat-mounted system that provides pro-level data on your game — no GPS, cameras, or infrastructure needed."
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/pages/how-it-works",
+            "https://www.playermaker.com/products/playermaker"
+          ]
+        },
+        "disturbs_play": {
+          "stated_effect": "Site copy says the sensors are lightweight and designed so players do not notice them and play is not disrupted.",
+          "raw_statements": [
+            "Playermaker products’ straps are expertly designed to seamlessly integrate with both cleats/boots and artificial turf shoes, providing a comfortable and unnoticeable fit during gameplay. You can also use Playermaker products for futsal, as the technology works seamlessly indoors and outdoors. If you find it inconvenient, a 30-day money-back guarantee is available.",
+            "Playermaker has been used by thousands of players, from grassroots to professionals, in full training sessions and matches without any disruption or risk to performance. After three years of rigorous lab and field testing with professional players under the highest standards, Playermaker was awarded FIFA certification for both data quality and safety, confirming its reliability and comfort at every level of the game.",
+            "Lightweight and virtually unnoticeable.",
+            "Won't affect your performance or movement.",
+            "Yes. Playermaker has been used by thousands of players, from grassroots to professionals, in full training sessions and matches without any disruption or risk to performance. After three years of rigorous lab and field testing with professional players under the highest standards, Playermaker was awarded FIFA certification for both data quality and safety, confirming its reliability and comfort at every level of the game.",
+            "✓ Zero Distractions: Ultra-lightweight (under 0.3 oz) and practically invisible on the shoe, so they stay fully focused on the game."
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/",
+            "https://www.playermaker.com/pages/faq",
+            "https://www.playermaker.com/products/playermaker"
+          ]
+        },
+        "device_app_requirements": {
+          "phone_needed_during_session": false,
+          "bluetooth_required_for_sync": true,
+          "gps_required_to_record": false,
+          "wifi_required_to_record": false,
+          "app_names": [
+            "Playermaker 2.0 mobile-app"
+          ],
+          "os_requirements": null,
+          "app_languages": [
+            "English",
+            "Spanish",
+            "Portuguese",
+            "German"
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/pages/faq",
+            "https://www.playermaker.com/pages/how-it-works"
+          ]
+        },
+        "battery": {
+          "session_limit_hours": 6,
+          "capacity": null,
+          "raw_statements": [
+            "Playermaker has a 6-hour session limit.",
+            "Battery shows charge percentage in the app.",
+            "Charge fully before each session for best results."
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/pages/faq"
+          ]
+        },
+        "water": {
+          "raw_statements": [
+            "Waterproof, top data capture accuracy indoor and outdoor",
+            "Protected by water-resistant silicone straps, built to last in any condition",
+            "No - the sensors are lightweight, waterproof, and sit securely in soft silicone straps that attach to your boots. They’re designed to feel natural, so once you start playing you won’t even notice them.",
+            "Water-resistant, not waterproof.",
+            "✓ Built for the Season: Waterproof, durable silicone straps that fit securely on any youth or adult shoe.",
+            "No - the sensors are lightweight, waterproof, and sit securely in soft silicone straps that attach to your soccer shoes. They’re designed to feel natural, so once you start playing you won’t even notice them.",
+            "Shipping 30 day money back Replacement warranty Buy now, Pay later Protected by water-resistant silicone straps, built to last in any condition 6-axis smart sensors sample 1000 times per second to track impact, ball contact, and foot rotation with precisi"
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/pages/faq",
+            "https://www.playermaker.com/products/playermaker"
+          ]
+        },
+        "stats_tracked": {
+          "technical": [
+            "Ball touches (total, by foot, by type)",
+            "Time on the ball and release time",
+            "Foot zones used for release",
+            "Dribbling frequency and turns with the ball",
+            "Kicking power and shooting speed",
+            "First touch quality and two-footed balance",
+            "Number of possessions",
+            "Time to release"
+          ],
+          "physical": [
+            "Total distance covered (on and off the ball)",
+            "Sprint distance and top speed",
+            "Acceleration / deceleration count",
+            "Work rate (distance per minute)",
+            "Changes in direction (volume and intensity)"
+          ],
+          "skill_scores": [
+            "Two-footed",
+            "Dribbling",
+            "First touch",
+            "Agility and speed",
+            "Agility",
+            "Power",
+            "Speed"
+          ],
+          "claimed_metric_count": 25
+        }
+      },
+      "media": [
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/Slide_1-desktop.png?v=1769151110",
+          "alt": null,
+          "width": 1446,
+          "height": 1446,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/Slide_3_750x960_PM2_2x-mobile.png?v=1769151110",
+          "alt": null,
+          "width": 1500,
+          "height": 1920,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/Slide_2-desktop.png?v=1769151110",
+          "alt": null,
+          "width": 1446,
+          "height": 1446,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/image-mobile.png?v=1769151110",
+          "alt": null,
+          "width": 1500,
+          "height": 1920,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/playermaker-banner-image-3.png?v=1769151110",
+          "alt": null,
+          "width": 1446,
+          "height": 1447,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/playermaker-pdp-mobile-2.png?v=1769151110",
+          "alt": null,
+          "width": 1500,
+          "height": 1920,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/playermaker-banner-image-4.png?v=1769151110",
+          "alt": null,
+          "width": 1446,
+          "height": 1447,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/playermaker-pdp-mobile-3.png?v=1769151110",
+          "alt": null,
+          "width": 1500,
+          "height": 1920,
+          "variant_ids": []
+        }
+      ],
+      "membership": {
+        "included": "12-month performance tracking and personalized insight with the kit",
+        "renewal_price": "149.00",
+        "renewal_currency": "USD",
+        "period": "12 months",
+        "starts_when": "When sensors are paired and activated in the app (not at purchase)",
+        "without_plan": "Historical data remains; new sessions cannot be recorded or synced until reactivated",
+        "source_urls": [
+          "https://www.playermaker.com/pages/faq",
+          "https://www.playermaker.com/products/playermaker"
+        ]
+      },
+      "shipping_returns": {
+        "claims": [
+          "Free Shipping",
+          "Worldwide shipping up to 5 business days",
+          "30 day money back",
+          "30-day money-back guarantee",
+          "Replacement warranty"
+        ],
+        "source_urls": [
+          "https://www.playermaker.com/products/playermaker",
+          "https://www.playermaker.com/pages/faq",
+          "https://www.playermaker.com/pages/shipping",
+          "https://www.playermaker.com/pages/returns"
+        ]
+      },
+      "gaps": [
+        "playermaker-2.0-age-max",
+        "playermaker-2.0-size-system-unlabeled",
+        "playermaker-2.0-os-requirements",
+        "playermaker-2.0-battery-capacity",
+        "pdp-template-bleed"
+      ]
+    },
+    {
+      "product_id": "cityplay",
+      "shopify_product_id": 7636275429546,
+      "handle": "cityplay",
+      "name": "CITYPLAY",
+      "url": "https://www.playermaker.com/products/cityplay",
+      "vendor": "Playermaker",
+      "role": "special_edition_kit",
+      "description": {
+        "short": "CITYPLAY kit including 2 sensors, strap at the size you select, charging case and a charging cable",
+        "full": "CITYPLAY is a special Playermaker edition that combines Manchester City’s world-class training methodology with Playermaker’s cutting-edge performance technology. CITYPLAY kit including 2 sensors, strap at the size you select, charging case and a charging cable",
+        "what_it_does": "Special Playermaker edition developed with Manchester City: same foot-mounted tracking, plus in-app Man City coaching content, drills, and occasional Man City promotions.",
+        "outcomes": [
+          "Site claim: average improvement among users in 90 days — Game Involvement 34%, Shooting Power 27%, Top speed / Sprint Speed 18%, Weak Foot Usage 45%",
+          "Personalized weekly Targets based on performance trends / Optimal Actions",
+          "Benchmark against personal bests, academy players, and professional players"
+        ],
+        "features": [
+          "6-axis motion smart sensors (gyroscope + accelerometer) sampling 1000 times/sec",
+          "Bluetooth sync; no Wi-Fi or GPS required to collect data",
+          "Works indoors and outdoors, including futsal",
+          "FIFA Quality certified for data quality and safety",
+          "Match Score and Spider Skill Chart (scores 40–99) after 3 matches"
+        ],
+        "whats_included": [
+          "CITYPLAY smart sensors (left & right)",
+          "Charging case + cable",
+          "2 Black mounting straps (left & right)",
+          "Durable carry case",
+          "Access to personalized content and tips by Man City experts",
+          "Man City sales and benefits",
+          "12-month performance tracking and personalized insight"
+        ],
+        "source_urls": [
+          "https://www.playermaker.com/products/cityplay",
+          "https://www.playermaker.com/products/cityplay.json"
+        ]
+      },
+      "variants": [
+        {
+          "variant_id": 44147137544362,
+          "title": "Medium",
+          "sku": "PM0215-M",
+          "barcode": "860008863140",
+          "price": "229.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Size": "Medium"
+          },
+          "option_names": [
+            "Size"
+          ],
+          "weight_grams": 300,
+          "image_url": null
+        },
+        {
+          "variant_id": 44147137577130,
+          "title": "Large",
+          "sku": "PM0215-L",
+          "barcode": "860008863157",
+          "price": "229.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Size": "Large"
+          },
+          "option_names": [
+            "Size"
+          ],
+          "weight_grams": 300,
+          "image_url": null
+        }
+      ],
+      "fit": {
+        "supported_age_range": {
+          "min": 8,
+          "max": null,
+          "raw_statements": [
+            "Playermaker is designed for soccer players of all ages, starting from 8 years old. From pro players to semi-pro and grassroots, Playermaker supports them all. With straps sized for both kids and adults, it’s built to fit every player and help them track and improve their game. Notably, 40% of our users are female players, reflecting the company’s commitment to serving and empowering the entire soccer community.",
+            "Playermaker is designed for soccer players of all ages starting from 8 years old. From pro players, to semi-pro, and grassroots, Playermaker supports them all. With straps sized for both kids and adults, it’s built to fit every player and help them track and improve their game. Notably, 40% of our users are female players, reflecting the company’s commitment to serving and empowering the entire soccer community.",
+            "Playermaker is designed for footballers starting from 8 years old.",
+            "Playermaker is designed for footballers of all ages starting from 8 years old. From pro players, to semi-pro, and grassroots, Playermaker supports it all. With straps sized for both kids and adults, it’s built to fit every player and help them track and improve their game. We are also very proud that 40% of our users are female players, reflecting our commitment to empowering the entire football community."
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/pages/faq",
+            "https://www.playermaker.com/products/cityplay"
+          ]
+        },
+        "size_shoe_bands": [
+          {
+            "label": "Medium",
+            "women": "3 - 8.5",
+            "men": "2.5 - 7",
+            "size_system": null,
+            "raw": "Women: 3 - 8.5 Men: 2.5 - 7",
+            "source_url": "https://www.playermaker.com/products/cityplay"
+          },
+          {
+            "label": "Large",
+            "women": "5 - 10.5",
+            "men": "3.5 - 9",
+            "size_system": null,
+            "raw": "Women: 5 - 10.5 Men: 3.5 - 9",
+            "source_url": "https://www.playermaker.com/products/cityplay"
+          }
+        ],
+        "attaches_how": {
+          "summary": "Insert the sensors into the silicone straps and attach the straps to the shoes/cleats.",
+          "raw_statements": [
+            "A shoe-mounted system that provides pro-level data on your game — no GPS, cameras, or infrastructure needed.",
+            "Insert the sensors into the straps and attach them to your shoes. Once secured, you’re ready to start.",
+            "The foot-mounted wearable transforming every ball touch and every move into actionable insights, and proven, lasting improvement.",
+            "No - the sensors are lightweight, waterproof, and sit securely in soft silicone straps that attach to your boots. They’re designed to feel natural, so once you start playing you won’t even notice them.",
+            "Both Playermaker 2.0 and CITYPLAY use the same advanced foot-mounted technology to deliver precise tracking and performance analysis.",
+            "Playermaker sensor system has been designed as an adaptable A cleat-mounted system that provides pro-level data on your game — no GPS, cameras, or infrastructure needed."
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/pages/how-it-works",
+            "https://www.playermaker.com/products/cityplay"
+          ]
+        },
+        "disturbs_play": {
+          "stated_effect": "Site copy says the sensors are lightweight and designed so players do not notice them and play is not disrupted.",
+          "raw_statements": [
+            "Playermaker products’ straps are expertly designed to seamlessly integrate with both cleats/boots and artificial turf shoes, providing a comfortable and unnoticeable fit during gameplay. You can also use Playermaker products for futsal, as the technology works seamlessly indoors and outdoors. If you find it inconvenient, a 30-day money-back guarantee is available.",
+            "Playermaker has been used by thousands of players, from grassroots to professionals, in full training sessions and matches without any disruption or risk to performance. After three years of rigorous lab and field testing with professional players under the highest standards, Playermaker was awarded FIFA certification for both data quality and safety, confirming its reliability and comfort at every level of the game.",
+            "Lightweight and virtually unnoticeable.",
+            "Won't affect your performance or movement.",
+            "Yes. Playermaker has been used by thousands of players, from grassroots to professionals, in full training sessions and matches without any disruption or risk to performance. After three years of rigorous lab and field testing with professional players under the highest standards, Playermaker was awarded FIFA certification for both data quality and safety, confirming its reliability and comfort at every level of the game.",
+            "✓ Zero Distractions: Ultra-lightweight (under 0.3 oz) and practically invisible on the shoe, so they stay fully focused on the game."
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/",
+            "https://www.playermaker.com/pages/faq",
+            "https://www.playermaker.com/products/cityplay"
+          ]
+        },
+        "device_app_requirements": {
+          "phone_needed_during_session": false,
+          "bluetooth_required_for_sync": true,
+          "gps_required_to_record": false,
+          "wifi_required_to_record": false,
+          "app_names": [
+            "CITYPLAY mobile-app"
+          ],
+          "os_requirements": null,
+          "app_languages": [
+            "English",
+            "Spanish",
+            "Portuguese",
+            "German"
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/pages/faq",
+            "https://www.playermaker.com/pages/how-it-works"
+          ]
+        },
+        "battery": {
+          "session_limit_hours": 6,
+          "capacity": null,
+          "raw_statements": [
+            "Playermaker has a 6-hour session limit.",
+            "Battery shows charge percentage in the app.",
+            "Charge fully before each session for best results."
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/pages/faq"
+          ]
+        },
+        "water": {
+          "raw_statements": [
+            "Waterproof, top data capture accuracy indoor and outdoor",
+            "Protected by water-resistant silicone straps, built to last in any condition",
+            "No - the sensors are lightweight, waterproof, and sit securely in soft silicone straps that attach to your boots. They’re designed to feel natural, so once you start playing you won’t even notice them.",
+            "Water-resistant, not waterproof.",
+            "✓ Built for the Season: Waterproof, durable silicone straps that fit securely on any youth or adult shoe.",
+            "No - the sensors are lightweight, waterproof, and sit securely in soft silicone straps that attach to your soccer shoes. They’re designed to feel natural, so once you start playing you won’t even notice them.",
+            "Shipping 30 day money back Replacement warranty Buy now, Pay later Protected by water-resistant silicone straps, built to last in any condition 6-axis smart sensors sample 1000 times per second to track impact, ball contact, and foot rotation with precisi"
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/pages/faq",
+            "https://www.playermaker.com/products/cityplay"
+          ]
+        },
+        "stats_tracked": {
+          "technical": [
+            "Ball touches (total, by foot, by type)",
+            "Time on the ball and release time",
+            "Foot zones used for release",
+            "Dribbling frequency and turns with the ball",
+            "Kicking power and shooting speed",
+            "First touch quality and two-footed balance",
+            "Number of possessions",
+            "Time to release"
+          ],
+          "physical": [
+            "Total distance covered (on and off the ball)",
+            "Sprint distance and top speed",
+            "Acceleration / deceleration count",
+            "Work rate (distance per minute)",
+            "Changes in direction (volume and intensity)"
+          ],
+          "skill_scores": [
+            "Two-footed",
+            "Dribbling",
+            "First touch",
+            "Agility and speed",
+            "Agility",
+            "Power",
+            "Speed"
+          ],
+          "claimed_metric_count": 25
+        }
+      },
+      "media": [
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/CP-PDP-Static-600x600.png?v=1787469786",
+          "alt": null,
+          "width": 600,
+          "height": 600,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/CP-PDP-mobile-1000x1280.png?v=1787470378",
+          "alt": null,
+          "width": 1000,
+          "height": 1280,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/cityplay-banner-image-2-desktop.png?v=1769150724",
+          "alt": null,
+          "width": 1446,
+          "height": 1446,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/cityplayer-pdp-mobile-1.png?v=1769150724",
+          "alt": null,
+          "width": 1500,
+          "height": 1920,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/cityplay-banner-image-3-desktop.png?v=1769150724",
+          "alt": null,
+          "width": 1446,
+          "height": 1446,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/cityplayer-pdp-mobile-2.png?v=1769150724",
+          "alt": null,
+          "width": 1500,
+          "height": 1920,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/cityplay-banner-image-4-desktop.png?v=1769150724",
+          "alt": null,
+          "width": 1446,
+          "height": 1446,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/cityplayer-pdp-mobile-3.png?v=1769150724",
+          "alt": null,
+          "width": 1500,
+          "height": 1920,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/cityplay-banner-image-5-desktop.png?v=1769150724",
+          "alt": null,
+          "width": 1446,
+          "height": 1446,
+          "variant_ids": []
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/cityplayer-pdp-mobile-4.png?v=1769150724",
+          "alt": null,
+          "width": 1500,
+          "height": 1920,
+          "variant_ids": []
+        }
+      ],
+      "membership": {
+        "included": "12-month performance tracking and personalized insight with the kit",
+        "renewal_price": "149.00",
+        "renewal_currency": "USD",
+        "period": "12 months",
+        "starts_when": "When sensors are paired and activated in the app (not at purchase)",
+        "without_plan": "Historical data remains; new sessions cannot be recorded or synced until reactivated",
+        "source_urls": [
+          "https://www.playermaker.com/pages/faq",
+          "https://www.playermaker.com/products/cityplay"
+        ]
+      },
+      "shipping_returns": {
+        "claims": [
+          "Free Shipping",
+          "Worldwide shipping up to 5 business days",
+          "30 day money back",
+          "30-day money-back guarantee",
+          "Replacement warranty"
+        ],
+        "source_urls": [
+          "https://www.playermaker.com/products/cityplay",
+          "https://www.playermaker.com/pages/faq",
+          "https://www.playermaker.com/pages/shipping",
+          "https://www.playermaker.com/pages/returns"
+        ]
+      },
+      "gaps": [
+        "cityplay-age-max",
+        "cityplay-size-system-unlabeled",
+        "cityplay-os-requirements",
+        "cityplay-battery-capacity"
+      ]
+    },
+    {
+      "product_id": "extra-straps",
+      "shopify_product_id": 7970108211370,
+      "handle": "playermaker-cityplay-straps",
+      "name": "Extra Straps",
+      "url": "https://www.playermaker.com/products/playermaker-cityplay-straps",
+      "vendor": "Playermaker",
+      "role": "accessory",
+      "description": {
+        "short": "Durable straps designed to securely hold your Playermaker sensors during training. Made for comfort, accuracy, and peak performance on and off the field.",
+        "full": "Durable straps designed to securely hold your Playermaker sensors during training. Made for comfort, accuracy, and peak performance on and off the field.",
+        "what_it_does": "Replacement / extra colored silicone straps that hold Playermaker sensors on the shoes.",
+        "outcomes": [],
+        "features": [
+          "Durable straps designed to securely hold Playermaker sensors during training",
+          "Colors: Black, Blue, Red, White, Pink, Yellow",
+          "Sizes: Medium, Large"
+        ],
+        "whats_included": [
+          "Durable straps designed to securely hold Playermaker sensors (sold as Extra Straps)"
+        ],
+        "source_urls": [
+          "https://www.playermaker.com/products/playermaker-cityplay-straps",
+          "https://www.playermaker.com/products/playermaker-cityplay-straps.json"
+        ]
+      },
+      "variants": [
+        {
+          "variant_id": 45911986143402,
+          "title": "Black / Medium",
+          "sku": "PM0220",
+          "barcode": "860008863126",
+          "price": "20.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Color": "Black",
+            "Size": "Medium"
+          },
+          "option_names": [
+            "Color",
+            "Size"
+          ],
+          "weight_grams": 500,
+          "image_url": null
+        },
+        {
+          "variant_id": 45911986176170,
+          "title": "Black / Large",
+          "sku": "PM0210",
+          "barcode": "860008863102",
+          "price": "20.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Color": "Black",
+            "Size": "Large"
+          },
+          "option_names": [
+            "Color",
+            "Size"
+          ],
+          "weight_grams": 500,
+          "image_url": null
+        },
+        {
+          "variant_id": 45911993090218,
+          "title": "Blue / Medium",
+          "sku": "PM-BLE-ST-M",
+          "barcode": "860011784746",
+          "price": "20.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Color": "Blue",
+            "Size": "Medium"
+          },
+          "option_names": [
+            "Color",
+            "Size"
+          ],
+          "weight_grams": 500,
+          "image_url": null
+        },
+        {
+          "variant_id": 45911993188522,
+          "title": "Blue / Large",
+          "sku": "PM-BLE-ST-L",
+          "barcode": "860011784739",
+          "price": "20.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Color": "Blue",
+            "Size": "Large"
+          },
+          "option_names": [
+            "Color",
+            "Size"
+          ],
+          "weight_grams": 500,
+          "image_url": null
+        },
+        {
+          "variant_id": 45911993122986,
+          "title": "Red / Medium",
+          "sku": "PM-RED-ST-M",
+          "barcode": "860011784753",
+          "price": "20.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Color": "Red",
+            "Size": "Medium"
+          },
+          "option_names": [
+            "Color",
+            "Size"
+          ],
+          "weight_grams": 500,
+          "image_url": null
+        },
+        {
+          "variant_id": 45911993221290,
+          "title": "Red / Large",
+          "sku": "PM-RED-ST-L",
+          "barcode": "860011784760",
+          "price": "20.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Color": "Red",
+            "Size": "Large"
+          },
+          "option_names": [
+            "Color",
+            "Size"
+          ],
+          "weight_grams": 500,
+          "image_url": null
+        },
+        {
+          "variant_id": 45911993155754,
+          "title": "White / Medium",
+          "sku": "PM-WTE-ST-M",
+          "barcode": "860011784784",
+          "price": "20.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Color": "White",
+            "Size": "Medium"
+          },
+          "option_names": [
+            "Color",
+            "Size"
+          ],
+          "weight_grams": 500,
+          "image_url": null
+        },
+        {
+          "variant_id": 45911993254058,
+          "title": "White / Large",
+          "sku": "PM-WTE-ST-L",
+          "barcode": "860011784777",
+          "price": "20.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Color": "White",
+            "Size": "Large"
+          },
+          "option_names": [
+            "Color",
+            "Size"
+          ],
+          "weight_grams": 500,
+          "image_url": null
+        },
+        {
+          "variant_id": 47305179168938,
+          "title": "Pink / Medium",
+          "sku": "PM-PNK-ST-M",
+          "barcode": "860013407476",
+          "price": "20.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Color": "Pink",
+            "Size": "Medium"
+          },
+          "option_names": [
+            "Color",
+            "Size"
+          ],
+          "weight_grams": 80,
+          "image_url": null
+        },
+        {
+          "variant_id": 47305177628842,
+          "title": "Pink / Large",
+          "sku": "PM-PNK-ST-L",
+          "barcode": "860013407469",
+          "price": "20.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Color": "Pink",
+            "Size": "Large"
+          },
+          "option_names": [
+            "Color",
+            "Size"
+          ],
+          "weight_grams": 80,
+          "image_url": null
+        },
+        {
+          "variant_id": 47305180348586,
+          "title": "Yellow / Medium",
+          "sku": "PM-YLW-ST-M",
+          "barcode": "860013407452",
+          "price": "20.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Color": "Yellow",
+            "Size": "Medium"
+          },
+          "option_names": [
+            "Color",
+            "Size"
+          ],
+          "weight_grams": 80,
+          "image_url": null
+        },
+        {
+          "variant_id": 47305179627690,
+          "title": "Yellow / Large",
+          "sku": "PM-YLW-ST-L",
+          "barcode": "860013407445",
+          "price": "20.00",
+          "currency": "USD",
+          "available": true,
+          "options": {
+            "Color": "Yellow",
+            "Size": "Large"
+          },
+          "option_names": [
+            "Color",
+            "Size"
+          ],
+          "weight_grams": 80,
+          "image_url": null
+        }
+      ],
+      "fit": {
+        "supported_age_range": {
+          "min": null,
+          "max": null,
+          "raw_statements": [
+            "Playermaker is designed for soccer players of all ages, starting from 8 years old. From pro players to semi-pro and grassroots, Playermaker supports them all. With straps sized for both kids and adults, it’s built to fit every player and help them track and improve their game. Notably, 40% of our users are female players, reflecting the company’s commitment to serving and empowering the entire soccer community.",
+            "Playermaker is designed for soccer players of all ages starting from 8 years old. From pro players, to semi-pro, and grassroots, Playermaker supports them all. With straps sized for both kids and adults, it’s built to fit every player and help them track and improve their game. Notably, 40% of our users are female players, reflecting the company’s commitment to serving and empowering the entire soccer community.",
+            "Playermaker is designed for footballers starting from 8 years old.",
+            "Playermaker is designed for footballers of all ages starting from 8 years old. From pro players, to semi-pro, and grassroots, Playermaker supports it all. With straps sized for both kids and adults, it’s built to fit every player and help them track and improve their game. We are also very proud that 40% of our users are female players, reflecting our commitment to empowering the entire football community."
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/pages/faq",
+            "https://www.playermaker.com/products/playermaker-cityplay-straps"
+          ]
+        },
+        "size_shoe_bands": [
+          {
+            "label": "unlabeled_alt",
+            "women": "3 - 10.5",
+            "men": "1.5 - 9",
+            "size_system": null,
+            "raw": "Men: 1.5 – 9 | Women: 3 – 10.5",
+            "source_url": "https://www.playermaker.com/products/playermaker-cityplay-straps"
+          },
+          {
+            "label": "unlabeled_alt",
+            "women": "11 - 16",
+            "men": "9.5 - 14.5",
+            "size_system": null,
+            "raw": "Men: 9.5 – 14.5 | Women: 11 – 16",
+            "source_url": "https://www.playermaker.com/products/playermaker-cityplay-straps"
+          }
+        ],
+        "attaches_how": {
+          "summary": "Silicone straps that hold Playermaker sensors on the shoes; accessory only (no sensors).",
+          "raw_statements": [
+            "A shoe-mounted system that provides pro-level data on your game — no GPS, cameras, or infrastructure needed.",
+            "Insert the sensors into the straps and attach them to your shoes. Once secured, you’re ready to start.",
+            "The foot-mounted wearable transforming every ball touch and every move into actionable insights, and proven, lasting improvement.",
+            "No - the sensors are lightweight, waterproof, and sit securely in soft silicone straps that attach to your boots. They’re designed to feel natural, so once you start playing you won’t even notice them.",
+            "Both Playermaker 2.0 and CITYPLAY use the same advanced foot-mounted technology to deliver precise tracking and performance analysis.",
+            "Playermaker sensor system has been designed as an adaptable A cleat-mounted system that provides pro-level data on your game — no GPS, cameras, or infrastructure needed."
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/pages/how-it-works",
+            "https://www.playermaker.com/products/playermaker-cityplay-straps"
+          ]
+        },
+        "disturbs_play": {
+          "stated_effect": "Straps are described as comfortable / unnoticeable on kit pages; no separate disturbance study for the accessory.",
+          "raw_statements": [
+            "Playermaker products’ straps are expertly designed to seamlessly integrate with both cleats/boots and artificial turf shoes, providing a comfortable and unnoticeable fit during gameplay. You can also use Playermaker products for futsal, as the technology works seamlessly indoors and outdoors. If you find it inconvenient, a 30-day money-back guarantee is available.",
+            "Playermaker has been used by thousands of players, from grassroots to professionals, in full training sessions and matches without any disruption or risk to performance. After three years of rigorous lab and field testing with professional players under the highest standards, Playermaker was awarded FIFA certification for both data quality and safety, confirming its reliability and comfort at every level of the game.",
+            "Lightweight and virtually unnoticeable.",
+            "Won't affect your performance or movement.",
+            "Yes. Playermaker has been used by thousands of players, from grassroots to professionals, in full training sessions and matches without any disruption or risk to performance. After three years of rigorous lab and field testing with professional players under the highest standards, Playermaker was awarded FIFA certification for both data quality and safety, confirming its reliability and comfort at every level of the game.",
+            "✓ Zero Distractions: Ultra-lightweight (under 0.3 oz) and practically invisible on the shoe, so they stay fully focused on the game."
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/",
+            "https://www.playermaker.com/pages/faq",
+            "https://www.playermaker.com/products/playermaker-cityplay-straps"
+          ]
+        },
+        "device_app_requirements": {
+          "phone_needed_during_session": false,
+          "bluetooth_required_for_sync": true,
+          "gps_required_to_record": false,
+          "wifi_required_to_record": false,
+          "app_names": [],
+          "os_requirements": null,
+          "app_languages": [
+            "English",
+            "Spanish",
+            "Portuguese",
+            "German"
+          ],
+          "source_urls": [
+            "https://www.playermaker.com/pages/faq",
+            "https://www.playermaker.com/pages/how-it-works"
+          ]
+        },
+        "battery": {
+          "session_limit_hours": null,
+          "capacity": null,
+          "raw_statements": [],
+          "source_urls": []
+        },
+        "water": {
+          "raw_statements": [],
+          "source_urls": [
+            "https://www.playermaker.com/pages/faq",
+            "https://www.playermaker.com/products/playermaker-cityplay-straps"
+          ]
+        },
+        "stats_tracked": {
+          "technical": [],
+          "physical": [],
+          "skill_scores": [],
+          "claimed_metric_count": null
+        }
+      },
+      "media": [
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/Group_1642956545.png?v=1768813711",
+          "alt": null,
+          "width": 814,
+          "height": 805,
+          "variant_ids": [
+            45911986143402,
+            45911986176170
+          ]
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/Shoes_1.png?v=1768814094",
+          "alt": null,
+          "width": 814,
+          "height": 805,
+          "variant_ids": [
+            45911993090218,
+            45911993188522
+          ]
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/Shoes_2.png?v=1768814094",
+          "alt": null,
+          "width": 814,
+          "height": 805,
+          "variant_ids": [
+            45911993122986,
+            45911993221290
+          ]
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/Shoes_3.png?v=1768814094",
+          "alt": null,
+          "width": 814,
+          "height": 805,
+          "variant_ids": [
+            45911993155754,
+            45911993254058
+          ]
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/Shoes_5.png?v=1768814539",
+          "alt": null,
+          "width": 814,
+          "height": 805,
+          "variant_ids": [
+            47305177628842,
+            47305179168938
+          ]
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/1/0418/6823/0811/files/Shoes_4.png?v=1768814539",
+          "alt": null,
+          "width": 814,
+          "height": 805,
+          "variant_ids": [
+            47305179627690,
+            47305180348586
+          ]
+        }
+      ],
+      "membership": null,
+      "shipping_returns": {
+        "claims": [
+          "Free Shipping",
+          "Worldwide shipping up to 5 business days",
+          "30 day money back",
+          "30-day money-back guarantee",
+          "Replacement warranty"
+        ],
+        "source_urls": [
+          "https://www.playermaker.com/products/playermaker-cityplay-straps",
+          "https://www.playermaker.com/pages/faq",
+          "https://www.playermaker.com/pages/shipping",
+          "https://www.playermaker.com/pages/returns"
+        ]
+      },
+      "gaps": [
+        "extra-straps-size-system-unlabeled",
+        "extra-straps-size-copy-conflict",
+        "black-strap-sku-pattern"
+      ]
+    }
+  ]
+}

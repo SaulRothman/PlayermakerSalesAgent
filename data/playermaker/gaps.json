@@ -1,0 +1,232 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-04T09:27:12Z",
+  "gaps": [
+    {
+      "gap_id": "playermaker-2.0-age-max",
+      "severity": "missing",
+      "field": "supported_age_range.max",
+      "product_id": "playermaker-2.0",
+      "detail": "No maximum age is stated. Copy says 'all ages starting from 8'.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "gap_id": "playermaker-2.0-size-system-unlabeled",
+      "severity": "missing",
+      "field": "size_shoe_bands.size_system",
+      "product_id": "playermaker-2.0",
+      "detail": "Shoe bands are printed as Women/Men numbers with no UK/US/EU label on the storefront.",
+      "source_urls": [
+        "https://www.playermaker.com/products/playermaker"
+      ]
+    },
+    {
+      "gap_id": "playermaker-2.0-os-requirements",
+      "severity": "missing",
+      "field": "device_app_requirements.os_requirements",
+      "product_id": "playermaker-2.0",
+      "detail": "No iOS/Android version requirements on the public storefront. /pages/android is a thin/empty page.",
+      "source_urls": [
+        "https://www.playermaker.com/products/playermaker",
+        "https://www.playermaker.com/pages/android"
+      ]
+    },
+    {
+      "gap_id": "playermaker-2.0-battery-capacity",
+      "severity": "missing",
+      "field": "battery.capacity",
+      "product_id": "playermaker-2.0",
+      "detail": "Only a 6-hour session limit is stated. No mAh, standby time, or charge time.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "gap_id": "cityplay-age-max",
+      "severity": "missing",
+      "field": "supported_age_range.max",
+      "product_id": "cityplay",
+      "detail": "No maximum age is stated. Copy says 'all ages starting from 8'.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "gap_id": "cityplay-size-system-unlabeled",
+      "severity": "missing",
+      "field": "size_shoe_bands.size_system",
+      "product_id": "cityplay",
+      "detail": "Shoe bands are printed as Women/Men numbers with no UK/US/EU label on the storefront.",
+      "source_urls": [
+        "https://www.playermaker.com/products/cityplay"
+      ]
+    },
+    {
+      "gap_id": "cityplay-os-requirements",
+      "severity": "missing",
+      "field": "device_app_requirements.os_requirements",
+      "product_id": "cityplay",
+      "detail": "No iOS/Android version requirements on the public storefront. /pages/android is a thin/empty page.",
+      "source_urls": [
+        "https://www.playermaker.com/products/cityplay",
+        "https://www.playermaker.com/pages/android"
+      ]
+    },
+    {
+      "gap_id": "cityplay-battery-capacity",
+      "severity": "missing",
+      "field": "battery.capacity",
+      "product_id": "cityplay",
+      "detail": "Only a 6-hour session limit is stated. No mAh, standby time, or charge time.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "gap_id": "extra-straps-size-system-unlabeled",
+      "severity": "missing",
+      "field": "size_shoe_bands.size_system",
+      "product_id": "extra-straps",
+      "detail": "Shoe bands are printed as Women/Men numbers with no UK/US/EU label on the storefront.",
+      "source_urls": [
+        "https://www.playermaker.com/products/playermaker-cityplay-straps"
+      ]
+    },
+    {
+      "gap_id": "water-claim-conflict",
+      "severity": "conflict",
+      "field": "water",
+      "product_id": null,
+      "detail": "FAQ: 'Water-resistant, not waterproof. Don't submerge.' Homepage/PDP/soccer-tracker: sensors or straps are called waterproof. Not resolved — do not pick one.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq",
+        "https://www.playermaker.com/",
+        "https://www.playermaker.com/products/playermaker",
+        "https://www.playermaker.com/pages/soccer-tracker"
+      ]
+    },
+    {
+      "gap_id": "sensor-weight-conflict",
+      "severity": "conflict",
+      "field": "weight",
+      "product_id": null,
+      "detail": "FAQ: 'Only 6 grams (0.21 ounces) each.' PDP vs-GPS table: Playermaker weight 0.28 oz. soccer-tracker: 'under 0.3 oz'. Not resolved.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq",
+        "https://www.playermaker.com/products/playermaker",
+        "https://www.playermaker.com/pages/soccer-tracker"
+      ]
+    },
+    {
+      "gap_id": "skill-count-conflict",
+      "severity": "conflict",
+      "field": "stats_tracked.skill_scores",
+      "product_id": null,
+      "detail": "PDP: '6 main performance skills' listing Two-footed, Dribbling, First touch, Agility and speed. soccer-tracker: six areas including Power as its own skill. GPS comparison blog: '5 key skills (Two-footed, Dribbling, First touch, Agility & Speed)'.",
+      "source_urls": [
+        "https://www.playermaker.com/products/playermaker",
+        "https://www.playermaker.com/pages/soccer-tracker",
+        "https://www.playermaker.com/blogs/news/gps-vests-vs-football-tracker"
+      ]
+    },
+    {
+      "gap_id": "size-band-overlap",
+      "severity": "conflict",
+      "field": "size_shoe_bands",
+      "product_id": null,
+      "detail": "Medium (Women 3–8.5 / Men 2.5–7) overlaps Large (Women 5–10.5 / Men 3.5–9). No on-page rule for the overlap zone.",
+      "source_urls": [
+        "https://www.playermaker.com/products/playermaker",
+        "https://www.playermaker.com/products/cityplay"
+      ]
+    },
+    {
+      "gap_id": "extra-straps-size-copy-conflict",
+      "severity": "conflict",
+      "field": "size_shoe_bands",
+      "product_id": "extra-straps",
+      "detail": "Extra Straps PDP extracted two unlabeled bands (Men 1.5–9 / Women 3–10.5 and Men 9.5–14.5 / Women 11–16). Kit PDPs use Medium Women 3–8.5 / Men 2.5–7 and Large Women 5–10.5 / Men 3.5–9, with no UK/US/EU label. Do not reconcile.",
+      "source_urls": [
+        "https://www.playermaker.com/products/playermaker-cityplay-straps"
+      ]
+    },
+    {
+      "gap_id": "pdp-template-bleed",
+      "severity": "conflict",
+      "field": "description",
+      "product_id": "playermaker-2.0",
+      "detail": "Playermaker 2.0 and Extra Straps PDPs include CITYPLAY-only blocks ('Tips by Manchester City experts', 'Average improvement of CITYPLAY users'). Comparison table on the homepage is the cleaner source for kit differences.",
+      "source_urls": [
+        "https://www.playermaker.com/products/playermaker",
+        "https://www.playermaker.com/products/playermaker-cityplay-straps",
+        "https://www.playermaker.com/"
+      ]
+    },
+    {
+      "gap_id": "shipping-policy-unextracted",
+      "severity": "thin_page",
+      "field": "shipping_returns",
+      "product_id": null,
+      "detail": " /pages/shipping and /policies/shipping-policy render almost no policy body in HTML (link-only / JS). Storefront claims are only 'Free Shipping' and 'Worldwide shipping up to 5 business days'.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/shipping",
+        "https://www.playermaker.com/policies/shipping-policy"
+      ]
+    },
+    {
+      "gap_id": "returns-policy-unextracted",
+      "severity": "thin_page",
+      "field": "shipping_returns",
+      "product_id": null,
+      "detail": "/pages/returns and /policies/refund-policy are link stubs. The only extractable return fact is the 30-day money-back guarantee on FAQ/PDPs.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/returns",
+        "https://www.playermaker.com/policies/refund-policy",
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "gap_id": "no-dedicated-sizing-or-compare-url",
+      "severity": "missing",
+      "field": "source_pages",
+      "product_id": null,
+      "detail": "No dedicated sizing page or PM2-vs-CITYPLAY comparison URL in the sitemap. Sizing lives on PDPs; kit comparison lives on the homepage table + FAQ.",
+      "source_urls": [
+        "https://www.playermaker.com/",
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "gap_id": "inventory-quantity-not-public",
+      "severity": "missing",
+      "field": "availability",
+      "product_id": null,
+      "detail": "Public Shopify JSON exposes `available` booleans, not stock quantities.",
+      "source_urls": [
+        "https://www.playermaker.com/products.json"
+      ]
+    },
+    {
+      "gap_id": "black-strap-sku-pattern",
+      "severity": "conflict",
+      "field": "sku",
+      "product_id": "extra-straps",
+      "detail": "Black straps use SKUs PM0220 (M) / PM0210 (L); other colors use PM-XXX-ST-M/L.",
+      "source_urls": [
+        "https://www.playermaker.com/products/playermaker-cityplay-straps.json"
+      ]
+    },
+    {
+      "gap_id": "android-page-empty",
+      "severity": "thin_page",
+      "field": "device_app_requirements",
+      "product_id": null,
+      "detail": "/pages/android title mentions 'Playermaker Android Beta' but the fetched HTML body is empty.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/android"
+      ]
+    }
+  ]
+}

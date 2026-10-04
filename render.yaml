@@ -1,0 +1,52 @@
+# Reproducible Render blueprint. Free web services spin down when idle;
+# the public HTTPS hostnames stay stable (no laptop / cloudflared).
+#
+# Catalog data ships from data/playermaker/ (leads.json is gitignored).
+# CATALOG_DATA_DIR is relative to the repo root, which is the service cwd.
+#
+# Secrets (DEVREV_PAT, DEVREV_WEBHOOK_ID): set in the Render dashboard.
+# Never NEXT_PUBLIC_*.
+
+previewsEnabled: false
+
+services:
+  - type: web
+    name: playermaker-catalog
+    runtime: python
+    plan: free
+    region: oregon
+    pythonVersion: "3.12.8"
+    buildCommand: pip install -r api/requirements.txt
+    startCommand: uvicorn api.app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /v1/health
+    envVars:
+      - key: PYTHONPATH
+        value: .
+      - key: CATALOG_DATA_DIR
+        value: data/playermaker
+
+  - type: web
+    name: playermaker-web
+    runtime: node
+    plan: free
+    region: oregon
+    rootDir: web
+    buildCommand: npm install && npm run build
+    startCommand: npx next start --hostname 0.0.0.0 --port $PORT
+    healthCheckPath: /help-me-decide
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CATALOG_API_URL
+        fromService:
+          name: playermaker-catalog
+          type: web
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: DEVREV_AGENT_ENDPOINT
+        value: https://api.devrev.ai/internal/ai-agents.events.execute-async
+      - key: DEVREV_AGENT_ID
+        value: don:core:dvrv-us-1:devo/111SOeMpZI:ai_agent/73
+      - key: DEVREV_PAT
+        sync: false
+      - key: DEVREV_WEBHOOK_ID
+        sync: false

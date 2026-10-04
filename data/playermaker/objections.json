@@ -1,0 +1,310 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-04T09:27:12Z",
+  "objections": [
+    {
+      "objection_id": "who-can-use-playermaker-is-it-for-all-players-and-ages",
+      "objection": "Who can use Playermaker? Is it for all players and ages?",
+      "answer": "Playermaker is designed for soccer players of all ages starting from 8 years old. From pro players, to semi-pro, and grassroots, Playermaker supports them all. With straps sized for both kids and adults, it’s built to fit every player and help them track and improve their game. Notably, 40% of our users are female players, reflecting the company’s commitment to serving and empowering the entire soccer community. How can Playermaker actually help me improve my game",
+      "source_urls": [
+        "https://www.playermaker.com/"
+      ]
+    },
+    {
+      "objection_id": "what-makes-playermaker-better-than-gps-trackers",
+      "objection": "What makes Playermaker better than GPS trackers?",
+      "answer": "Playermaker works both indoors and outdoors, so you can use it anywhere you train or play. Unlike GPS trackers that sit on your chest and mainly measure running distance and top speed, Playermaker is mounted directly on your shoes, capturing every touch, pass, turn, and kick with precision. By tracking data from the true source of motion - your feet - Playermaker doesn’t just measure the volume and intensity of your actions, it also evaluates your technique. This unique ability helps you not only understand how much and how hard you perform, but also how well you execute, giving you clear guidance to improve both your physical and technical game.",
+      "source_urls": [
+        "https://www.playermaker.com/"
+      ]
+    },
+    {
+      "objection_id": "what-type-of-data-does-playermaker-track",
+      "objection": "What type of data does Playermaker track?",
+      "answer": "Playermaker tracks both technical and physical performance, providing a complete picture of your game. It records your ball touches, passing, shooting, dribbling, first touch, two-footed use, and kicking velocity, as well as distance covered, sprints, accelerations, decelerations, power, intensity, and more.",
+      "source_urls": [
+        "https://www.playermaker.com/"
+      ]
+    },
+    {
+      "objection_id": "do-the-sensors-affect-players-while-training-or-playing",
+      "objection": "Do the sensors affect players while training or Playing?",
+      "answer": "No - the sensors are lightweight, waterproof, and sit securely in soft silicone straps that attach to your boots. They’re designed to feel natural, so once you start playing you won’t even notice them.",
+      "source_urls": [
+        "https://www.playermaker.com/"
+      ]
+    },
+    {
+      "objection_id": "what-age-is-playermaker-designed-for",
+      "objection": "What age is Playermaker designed for?",
+      "answer": "Playermaker is designed for footballers starting from 8 years old. The straps come in sizes for both kids and adults. Pro players, semi-pro, and grassroots players all use it successfully.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "what-languages-does-the-app-support",
+      "objection": "What languages does the app support?",
+      "answer": "The Playermaker 2.0/CITYPLAY app supports: - English - Spanish - Portuguese - German",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "does-playermaker-work-indoors-and-outdoors",
+      "objection": "Does Playermaker work indoors and outdoors?",
+      "answer": "Yes, Playermaker works in both environments. You can use it for futsal indoors. No GPS or Wi-Fi signal needed to collect data. All recording happens via Bluetooth.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "what-shoes-can-i-use-playermaker-with",
+      "objection": "What shoes can I use Playermaker with?",
+      "answer": "Playermaker works with: - Soccer cleats/boots - Artificial turf shoes - Futsal shoes The straps fit seamlessly on all shoe types.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "how-is-playermaker-different-from-gps-vest-trackers",
+      "objection": "How is Playermaker different from GPS vest trackers?",
+      "answer": "Playermaker tracks everything a GPS vest does — distance, speed, sprint count, and more — but adds what GPS can’t: true football technique analysis. Mounted on your boots, Playermaker measures movement from its real source — your feet. This allows it to capture every touch, pass, turn, and kick with millisecond precision. By combining physical data (distance, speed, intensity) with technical insight (technique quality, foot usage, ball control), Playermaker reveals how you perform — not just how much you move. Its advanced algorithms deliver personalized feedback on your speed mechanics, change of direction, first touch, and overall technique — helping you train smarter and improve faster.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "how-accurate-is-playermaker",
+      "objection": "How accurate is Playermaker?",
+      "answer": "Playermaker’s 6-axis smart sensors sample 1,000 times per second, tracking impact, ball contact, and foot rotation with exceptional precision. Independent scientific research from leading universities and sports performance labs has validated Playermaker’s data, showing up to 98% accuracy — often outperforming traditional GPS vest systems. The system is FIFA Quality certified and trusted by some of the world’s top clubs, academies, and sports organizations, following rigorous testing and validation by elite sports scientists. It even includes built-in self-checks to ensure data integrity — detecting incorrect mounting or sensor placement and automatically excluding inaccurate sessions.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "how-long-does-the-battery-last",
+      "objection": "How long does the battery last?",
+      "answer": "Playermaker has a 6-hour session limit. This is the maximum recording capacity for all recording modes. Battery shows charge percentage in the app. Charge fully before each session for best results.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "what-metrics-does-playermaker-track",
+      "objection": "What metrics does Playermaker track?",
+      "answer": "Technical Metrics Playermaker captures every ball-related action - touches, passes, releases, including: Ball touches (total, by foot, by type) Time on the ball and release time Foot zones used for release",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "what-is-the-playermaker-scoring-system",
+      "objection": "What is the Playermaker Scoring System?",
+      "answer": "Your data is translated into a personalized Match Score and Spider Skill Chart, built from millions of benchmarked performances worldwide. Scores (40–99) show how you rank by age, gender, and position, helping you visualize strengths and improvement areas. As you record more matches, your scores evolve — reflecting your real development over time.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "does-playermaker-track-possession-time",
+      "objection": "Does Playermaker track possession time?",
+      "answer": "Yes, Playermaker tracks: - Number of possessions - Time on the ball - Time to release",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "can-goalkeepers-use-playermaker",
+      "objection": "Can goalkeepers use Playermaker?",
+      "answer": "Yes! Playermaker is great for goalkeepers. It tracks explosive movements, accelerations, and kick power — helping improve first touch, balance, and distribution accuracy. Perfect for refining technique, monitoring training load, and boosting overall performance — indoors or outdoors.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "do-i-need-my-phone-with-me-to-record-a-session",
+      "objection": "Do I need my phone with me to record a session?",
+      "answer": "No — you don’t need your phone to start or end a session. Playermaker sensors start recording automatically when you take them out of the charging case and stop when you put them back in. They’ll sync all session data the next time they’re near your mobile. Advanced AI algorithms automatically filter out any irrelevant or idle time, so only your real activity is analysed. Just charge, wear, play — Playermaker does the rest.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "how-do-my-sessions-sync",
+      "objection": "How do my sessions sync?",
+      "answer": "Sessions record automatically while you play. When your sensors come within Bluetooth range of your phone, the data syncs automatically—no buttons needed. Just make sure Bluetooth is on. You’ll see your full analysis in the app once sync completes.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "can-multiple-family-members-share-one-playermaker",
+      "objection": "Can multiple family members share one Playermaker?",
+      "answer": "Yes, but with conditions to keep everyone’s data clean and accurate. Multiple players can use the same device as long as: Each player has their own valid membership and app profile. The device is only used by one player at a time. When switching players, the previous user must ensure their data is fully synced and then unpair the sensors from their account.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "do-i-need-a-subscription-to-use-playermaker",
+      "objection": "Do I need a subscription to use Playermaker?",
+      "answer": "Yes, Playermaker keeps learning and improving with every game you play, continuously enhancing your experience with new analytics, insights, and app updates. An active membership ensures seamless data syncing, processing, and reporting — so your performance tracking always stays accurate and up to date. Without an active plan, you’ll still have access to your historical data and past reports, but you won’t be able to record or sync new sessions until the plan is reactivated. Membership starts upon sensor activation. Renews automatically at $149/year for another 12 months unless canceled. We’ll send you a reminder email before renewal. You can cancel anytime.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "is-there-a-money-back-guarantee",
+      "objection": "Is there a money-back guarantee?",
+      "answer": "Yes, Playermaker offers a 30-day money-back guarantee. If you find it inconvenient, you can return it.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "can-i-compare-my-stats-to-professional-players",
+      "objection": "Can I compare my stats to professional players?",
+      "answer": "Yes, the app lets you benchmark against: - Your personal bests - Academy players - Professional players worldwide",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "what-s-the-difference-between-playermaker-2-0-and-cityplay",
+      "objection": "What’s the difference between Playermaker 2.0 and CITYPLAY?",
+      "answer": "Both Playermaker 2.0 and CITYPLAY use the same advanced foot-mounted technology to deliver precise tracking and performance analysis. The difference lies in the exclusive content and experience offered with CITYPLAY. Developed in collaboration with Manchester City, CITYPLAY includes: In-app video content featuring Man City’s top talent development coaches",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "can-i-upgrade-from-playermaker-1-0-uno-to-2-0",
+      "objection": "Can I upgrade from Playermaker 1.0/UNO to 2.0?",
+      "answer": "Yes, there's a special upgrade offer. Contact support with your Playermaker 1.0 account email. They'll provide upgrade details and pricing. Your historical data transfers smoothly to the new system.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "where-is-my-data-stored",
+      "objection": "Where is my data stored?",
+      "answer": "Data stored securely on Playermaker's cloud servers. Accessible only through your account. Protected by industry-standard encryption. You own your personal performance data. Can request data deletion at any time.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "can-i-share-my-data-with-scouts-or-colleges",
+      "objection": "Can I share my data with scouts or colleges?",
+      "answer": "Yes, multiple sharing options available. Export PDF reports from the app. Share your Player Card directly. Email session summaries to recruiters. Control exactly what data you share.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "what-is-fifa-certification",
+      "objection": "What is FIFA certification?",
+      "answer": "Playermaker is FIFA-certified for quality and safety. Tested for 3 years with professional players. Meets highest standards for match use. Certified for both data accuracy and player safety. Approved for competitive play at all levels.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "how-does-the-ai-training-advice-work",
+      "objection": "How does the AI training advice work?",
+      "answer": "AI analyzes your performance patterns. Identifies strengths and weaknesses automatically. Suggests personalized training focus areas. Updates recommendations as you improve.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "are-the-sensors-waterproof-or-water-resistant",
+      "objection": "Are the sensors waterproof or water-resistant?",
+      "answer": "Water-resistant, not waterproof. Work perfectly in rain and wet conditions. Don't submerge in water. Built for all weather year-round use. Durable silicone protects from impacts.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "how-heavy-are-the-sensors",
+      "objection": "How heavy are the sensors?",
+      "answer": "Only 6 grams (0.21 ounces) each. Lightweight and virtually unnoticeable. Won't affect your performance or movement. Players forget they're wearing them.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "when-does-my-membership-start",
+      "objection": "When does my membership start?",
+      "answer": "Starts when you activate sensors in the app. 12-month countdown begins at activation. Not when you purchase or receive the device.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "can-i-pause-my-membership",
+      "objection": "Can I pause my membership?",
+      "answer": "Yes, contact support to pause. Available for injury recovery periods. Email: support@playermaker.com.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "what-solution-does-playermaker-offer-for-teams",
+      "objection": "What solution does Playermaker offer for teams?",
+      "answer": "Playermaker provides tailored solutions for teams through a range of packages, each offering different levels of data access, operational workflows, and support — all at different price points. Every package comes with a dedicated Coach Dashboard, giving staff a centralized platform to monitor, analyze, and act on player performance data. Teams use Playermaker technology for performance enhancement, skills assessment, and injury risk mitigation.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "can-playermaker-be-used-in-official-matches",
+      "objection": "Can Playermaker be used in official matches?",
+      "answer": "Yes. Playermaker has been used by thousands of players, from grassroots to professionals, in full training sessions and matches without any disruption or risk to performance. After three years of rigorous lab and field testing with professional players under the highest standards, Playermaker was awarded FIFA certification for both data quality and safety, confirming its reliability and comfort at every level of the game. ← → GET $20 OFF",
+      "source_urls": [
+        "https://www.playermaker.com/pages/faq"
+      ]
+    },
+    {
+      "objection_id": "are-playermaker-products-suitable-for-all-player-ages-and-levels",
+      "objection": "Are Playermaker products suitable for all player ages and levels?",
+      "answer": "Playermaker is designed for soccer players of all ages, starting from 8 years old. From pro players to semi-pro and grassroots, Playermaker supports them all. With straps sized for both kids and adults, it’s built to fit every player and help them track and improve their game. Notably, 40% of our users are female players, reflecting the company’s commitment to serving and empowering the entire soccer community.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/products"
+      ]
+    },
+    {
+      "objection_id": "which-type-of-shoes-can-i-use-with-playermaker-products",
+      "objection": "Which type of shoes can I use with Playermaker products?",
+      "answer": "Playermaker products’ straps are expertly designed to seamlessly integrate with both cleats/boots and artificial turf shoes, providing a comfortable and unnoticeable fit during gameplay. You can also use Playermaker products for futsal, as the technology works seamlessly indoors and outdoors. If you find it inconvenient, a 30-day money-back guarantee is available.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/products"
+      ]
+    },
+    {
+      "objection_id": "what-languages-does-the-playermaker-2-0-cityplay-app-support",
+      "objection": "What languages does the Playermaker 2.0/CITYPLAY app support?",
+      "answer": "The Playermaker 2.0 / CITYPLAY app supports English, Spanish, Portuguese, and German. Additionally, customer service is also available in these languages.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/products"
+      ]
+    },
+    {
+      "objection_id": "why-does-playermaker-2-0-cityplay-require-an-active-membership",
+      "objection": "Why does Playermaker 2.0/CITYPLAY require an active membership?",
+      "answer": "Playermaker keeps learning and improving with every game you play, continuously enhancing your experience with new analytics, insights, and app updates. An active membership ensures seamless data syncing, processing, and reporting — so your performance tracking always stays accurate and up to date. Without an active plan, you’ll still have access to your historical data and past reports, but you won’t be able to record or sync new sessions until the plan is reactivated.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/products"
+      ]
+    },
+    {
+      "objection_id": "when-does-my-playermaker-2-0-cityplay-membership-start",
+      "objection": "When does my Playermaker 2.0/CITYPLAY membership start?",
+      "answer": "It starts once you pair and activate your sensors in the app. From that point, data syncing and insights begin. You can pause or reactivate anytime by contacting our support.",
+      "source_urls": [
+        "https://www.playermaker.com/pages/products"
+      ]
+    }
+  ]
+}
