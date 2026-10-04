@@ -1,9 +1,10 @@
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { CatalogUnavailable, fetchProducts } from "@/lib/catalog";
+import type { Product } from "@/lib/types";
 
 export default async function HowItWorksPage() {
-  let kit = null;
+  let kit: Product | null = null;
   let error: string | null = null;
   try {
     const data = await fetchProducts();

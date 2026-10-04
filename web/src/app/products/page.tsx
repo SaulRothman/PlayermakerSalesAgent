@@ -2,9 +2,10 @@ import { ProductCard } from "@/components/ProductCard";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { CatalogUnavailable, fetchProducts } from "@/lib/catalog";
+import type { Product } from "@/lib/types";
 
 export default async function ProductsPage() {
-  let products = [];
+  let products: Product[] = [];
   let error: string | null = null;
   try {
     products = (await fetchProducts()).products;
