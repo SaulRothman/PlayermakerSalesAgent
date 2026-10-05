@@ -26,6 +26,43 @@ export function cleanSignals(raw?: unknown): BuyerSignals {
   return out;
 }
 
+/** Lift chip / free-text answers into BuyerSignals. Shared by the page and the mock. */
+export function absorbBuyerSignals(signals: BuyerSignals, text: string, chipId?: string): BuyerSignals {
+  const next = { ...signals };
+  const t = (text || "").toLowerCase();
+  const id = (chipId || "").toLowerCase();
+
+  if (id === "under-8" || /\bunder\s*8\b/.test(t) || /\b(5|6|7)\s*(years?)?\b/.test(t)) next.age = 7;
+  else if (id === "8-10" || /\b8\s*[–-]\s*10\b/.test(t)) next.age = 9;
+  else if (id === "11-13" || /\b11\s*[–-]\s*13\b/.test(t)) next.age = 12;
+  else if (id === "14-17" || /\b14\s*[–-]\s*17\b/.test(t)) next.age = 15;
+  else if (id === "18-plus" || /\b18\+/.test(t)) next.age = 18;
+  else {
+    const n = t.match(/\b(\d{1,2})\b/);
+    if (n) next.age = Number(n[1]);
+  }
+
+  if (
+    id === "man-city-yes" ||
+    /man(?:chester)?\s*city|cityplay|yes.*content|content sounds great/.test(t)
+  ) {
+    next.wants_man_city_content = true;
+  }
+  if (
+    id === "man-city-no" ||
+    /just the tracker|tracker-only|tracker only|no city|no man|core kit|playermaker 2/.test(t)
+  ) {
+    next.wants_man_city_content = false;
+  }
+
+  if (/team|club buy|whole (team|squad)/.test(t)) next.buyer_type = "team_or_club";
+  if (/strap/.test(t)) {
+    next.already_owns_kit = true;
+    next.needs = ["extra_straps"];
+  }
+  return next;
+}
+
 export function mergeSignals(base: BuyerSignals, incoming?: BuyerSignals): BuyerSignals {
   const next = { ...base };
   const add = incoming || {};

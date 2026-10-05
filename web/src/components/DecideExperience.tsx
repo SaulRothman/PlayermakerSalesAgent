@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useMemo, useRef, useState } from "react";
 
+import { PanelKitCard } from "@/components/PanelKitCard";
 import type {
   AgentChip,
   AgentMessage,
@@ -12,11 +12,11 @@ import type {
   LeadFormState,
   LeadProfile,
   LeadResult,
-  PanelProduct,
   PanelState,
   UtmContext,
 } from "@/lib/agent-protocol";
 import { mergePanels } from "@/lib/agent-protocol";
+import { absorbBuyerSignals } from "@/lib/signals";
 
 function newSessionId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
@@ -87,6 +87,8 @@ export function DecideExperience() {
   ) {
     const sid = sessionId || newSessionId();
     if (!sessionId) setSessionId(sid);
+    const nextSignals = absorbBuyerSignals(signals, message, chip_id);
+    setSignals(nextSignals);
     refreshGen.current += 1;
     setPending(true);
     setError(null);
@@ -109,7 +111,7 @@ export function DecideExperience() {
           input_type,
           chip_id,
           profile,
-          signals,
+          signals: nextSignals,
           utm: readUtm(),
           source: harness ? "async-harness" : "help-me-decide",
           ...(harness ? { timeout_ms: 20_000 } : {}),
@@ -294,7 +296,11 @@ export function DecideExperience() {
               {sortedPanel.length ? (
                 <div className="panel-grid">
                   {sortedPanel.map((p) => (
-                    <PanelKitCard key={p.product_id} product={p} emphasized={Boolean(p.emphasized || p.product_id === emphasized)} />
+                    <PanelKitCard
+                      key={p.product_id}
+                      product={p}
+                      emphasized={Boolean(p.emphasized || p.product_id === emphasized)}
+                    />
                   ))}
                 </div>
               ) : (
@@ -305,42 +311,5 @@ export function DecideExperience() {
         </main>
       )}
     </>
-  );
-}
-
-const ROLE_LABEL: Record<string, string> = {
-  core_kit: "Core kit",
-  special_edition_kit: "Special edition",
-  accessory: "Accessory",
-};
-
-function PanelKitCard({ product, emphasized }: { product: PanelProduct; emphasized: boolean }) {
-  const role = product.role ? ROLE_LABEL[product.role] || product.role.replace(/_/g, " ") : "";
-  return (
-    <article className={`panel-card ${emphasized ? "emphasized" : "soft"}`}>
-      {product.image_url ? (
-        <Image src={product.image_url} alt={product.name} width={320} height={320} />
-      ) : (
-        <div className="media" aria-hidden />
-      )}
-      <div className="card-body">
-        <p className="role">{emphasized ? "Best match from the catalog" : role}</p>
-        <div className="meta-row">
-          <h3>{product.name}</h3>
-          {product.price ? <span className="price">{product.price}</span> : null}
-        </div>
-        {product.what_it_does ? <p>{product.what_it_does}</p> : null}
-        <div className="panel-card-actions">
-          <Link className="btn secondary" href={`/products/${product.product_id}`}>
-            View kit
-          </Link>
-          {product.url ? (
-            <a className="btn" href={product.url} target="_blank" rel="noreferrer">
-              Buy
-            </a>
-          ) : null}
-        </div>
-      </div>
-    </article>
   );
 }

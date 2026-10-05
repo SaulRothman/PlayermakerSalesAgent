@@ -43,6 +43,7 @@ export async function POST(req: Request) {
     body.session_object || body.session_id || inner.session_object || inner.session_id || meta.conversation_id || "",
   );
   const preview = String(inner.message || body.message || "").slice(0, 120);
+  const keyList = Object.keys(inner).slice(0, 16).join(",");
   const flags = [
     result.challenge ? "verify-echo" : "",
     result.error || "",
@@ -53,7 +54,7 @@ export async function POST(req: Request) {
     .filter(Boolean)
     .join(" ");
   console.log(
-    `[agent/events] type=${type} session=${session || "—"} http=${result.challenge ? 200 : result.status} ${flags}${preview ? ` preview=${JSON.stringify(preview)}` : ""}`,
+    `[agent/events] type=${type} session=${session || "—"} http=${result.challenge ? 200 : result.status} ${flags} keys=${keyList}${preview ? ` preview=${JSON.stringify(preview)}` : ""}`,
   );
   if (result.challenge) {
     return NextResponse.json({ challenge: result.challenge });

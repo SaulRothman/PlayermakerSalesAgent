@@ -4,7 +4,9 @@
  */
 import "server-only";
 
-import { fetchCaptureLead, fetchFitMatch, fetchProducts, firstImage, firstPrice } from "@/lib/catalog";
+import { fetchCaptureLead, fetchFitMatch } from "@/lib/catalog";
+import { absorbBuyerSignals, cleanSignals, mergeSignals } from "@/lib/signals";
+import { panelFromSkillOutput } from "@/server/devrev-parse";
 import type {
   AgentChip,
   AgentMessage,
@@ -13,11 +15,8 @@ import type {
   BuyerSignals,
   LeadFormState,
   LeadResult,
-  PanelProduct,
   PanelState,
 } from "@/lib/agent-protocol";
-import { cleanSignals, mergeSignals } from "@/lib/signals";
-import type { Product } from "@/lib/types";
 
 type Signals = BuyerSignals & { play_level?: string };
 
@@ -48,72 +47,23 @@ function msg(text: string): AgentMessage {
   return { id: `m-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, role: "agent", text };
 }
 
-function toPanelProducts(products: Product[], emphasized: string | null): PanelProduct[] {
-  const cards = products.map((p) => ({
-    product_id: p.product_id,
-    name: p.name,
-    price: firstPrice(p),
-    image_url: firstImage(p),
-    url: p.url || null,
-    role: p.role,
-    what_it_does: p.description.what_it_does,
-    emphasized: p.product_id === emphasized,
-  }));
-  cards.sort((a, b) => Number(b.emphasized) - Number(a.emphasized));
-  return cards;
-}
-
 async function catalogPanel(signals: Signals): Promise<PanelState> {
-  const [match, catalog] = await Promise.all([fetchFitMatch(signals), fetchProducts()]);
-  const outcome = String(match.outcome || "none") as PanelState["outcome"];
-  const emphasized = (match.best_fit_product_id as string | null) || null;
-  return {
-    outcome:
-      outcome === "match" ||
-      outcome === "accessory" ||
-      outcome === "honest_no" ||
-      outcome === "lead" ||
-      outcome === "need_more"
-        ? outcome
-        : "none",
-    emphasized_product_id: emphasized,
-    products: toPanelProducts(catalog.products, emphasized),
-    why: typeof match.why === "string" ? match.why : null,
-  };
+  const match = await fetchFitMatch(signals);
+  const fromSkill = panelFromSkillOutput(match);
+  if (fromSkill) return fromSkill;
+  return { outcome: "none", emphasized_product_id: null, products: [], why: null };
 }
 
 function absorbText(signals: Signals, text: string, chipId?: string): void {
+  const next = absorbBuyerSignals(signals, text, chipId);
+  Object.assign(signals, next);
   const t = text.toLowerCase();
   const id = (chipId || "").toLowerCase();
-
-  if (id === "under-8" || /\bunder\s*8\b/.test(t) || /\b(5|6|7)\s*(years?)?\b/.test(t)) signals.age = 7;
-  else if (id === "8-10") signals.age = 9;
-  else if (id === "11-13") signals.age = 12;
-  else if (id === "14-17") signals.age = 15;
-  else if (id === "18-plus") signals.age = 18;
-  else {
-    const n = t.match(/\b(\d{1,2})\b/);
-    if (n) signals.age = Number(n[1]);
-  }
-
-  if (id === "man-city-yes" || /man(?:chester)?\s*city|cityplay|yes.*content/.test(t)) {
-    signals.wants_man_city_content = true;
-  }
-  if (id === "man-city-no" || /just the tracker|no city|no man|core kit|playermaker 2/.test(t)) {
-    signals.wants_man_city_content = false;
-  }
-
   if (id === "casual" || id === "regular-club" || id === "competitive") {
     signals.play_level = id;
   } else if (/casual/.test(t)) signals.play_level = "casual";
   else if (/competitive|travel|ecnl|academy/.test(t)) signals.play_level = "competitive";
   else if (/club|regular/.test(t)) signals.play_level = "regular-club";
-
-  if (/team|club buy|whole (team|squad)/.test(t)) signals.buyer_type = "team_or_club";
-  if (/strap/.test(t)) {
-    signals.already_owns_kit = true;
-    signals.needs = ["extra_straps"];
-  }
 }
 
 function extractEmail(text: string): string | undefined {

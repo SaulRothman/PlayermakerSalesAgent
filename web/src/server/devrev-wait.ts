@@ -318,9 +318,9 @@ export function ingestDevRevEvent(body: Record<string, unknown>, headers?: Heade
   }
 
   const kind = classify(inner);
-  const skillPayload = extractSkillOutput(inner);
+  const skillPayload = extractSkillOutput(inner) || unwrapFitPayload(body);
   if (kind === "unknown" && !skillPayload) {
-    return { ok: false, status: 400, error: "unrecognized DevRev event (need agent_response, progress, messages, or message)" };
+    return { ok: true, status: 200, ignored: true };
   }
 
   const box = inbox(sessionId);

@@ -139,8 +139,8 @@ async function testInvalid() {
   const empty = await post("/api/agent/events", {});
   assert(empty.status === 400 && /session_id/i.test(empty.data.error || ""), `empty ${JSON.stringify(empty)}`);
   const junk = await post("/api/agent/events", { session_id: "x", foo: 1 });
-  assert(junk.status === 400 && /unrecognized/i.test(junk.data.error || ""), `junk ${JSON.stringify(junk)}`);
-  ok("invalid payload → 400");
+  assert(junk.status === 200 && junk.data.ignored === true, `junk ${JSON.stringify(junk)}`);
+  ok("missing session → 400; unknown-but-sessioned event ignored 200");
 }
 
 async function testMatchRoundTrip() {

@@ -88,24 +88,9 @@ export function unwrapFitPayload(raw: unknown, depth = 0): Record<string, unknow
   const rec = asRecord(parsed);
   if (!rec) return null;
   if (looksLikeFit(rec)) return rec;
-  for (const key of [
-    "body",
-    "data",
-    "result",
-    "output",
-    "response",
-    "skill_output",
-    "skill_executed",
-    "recommendation",
-    "payload",
-    "fit_match",
-    "fit_explain",
-    "fit_compare",
-  ]) {
-    if (key in rec) {
-      const found = unwrapFitPayload(rec[key], depth + 1);
-      if (found) return found;
-    }
+  for (const value of Object.values(rec)) {
+    const found = unwrapFitPayload(value, depth + 1);
+    if (found) return found;
   }
   return null;
 }
@@ -144,7 +129,17 @@ function productCard(raw: Record<string, unknown>, emphasized: boolean): PanelPr
     (typeof raw.image_url === "string" && raw.image_url) ||
     (typeof media0.url === "string" && media0.url) ||
     null;
-  const url = typeof raw.url === "string" && raw.url.trim() ? raw.url.trim() : null;
+  const url =
+    (typeof raw.checkout_url === "string" && raw.checkout_url.trim()) ||
+    (typeof raw.add_to_cart_url === "string" && raw.add_to_cart_url.trim()) ||
+    (typeof raw.url === "string" && raw.url.trim()) ||
+    null;
+  const available =
+    typeof raw.available === "boolean"
+      ? raw.available
+      : typeof raw.available === "string"
+        ? raw.available.toLowerCase() === "true"
+        : null;
   return {
     product_id: product_id || name,
     name: name || product_id,
@@ -153,6 +148,7 @@ function productCard(raw: Record<string, unknown>, emphasized: boolean): PanelPr
     url,
     role: String(raw.role || ""),
     what_it_does: String(raw.what_it_does || nestedString(raw, ["description", "what_it_does"]) || ""),
+    available,
     emphasized,
   };
 }
@@ -194,13 +190,14 @@ export function panelFromSkillOutput(output: unknown): PanelState | null {
       ? String((rec.product as Record<string, unknown>).product_id || "")
       : "") ||
     null;
-  const products = collectProducts(rec, emphasized || null);
+  const hideCards = outcome === "honest_no" || outcome === "lead" || outcome === "need_more";
+  const products = hideCards ? [] : collectProducts(rec, emphasized || null);
 
   if (!products.length && outcome === "none" && !rec.why) return null;
 
   return {
     outcome,
-    emphasized_product_id: emphasized || products.find((p) => p.emphasized)?.product_id || null,
+    emphasized_product_id: hideCards ? null : emphasized || products.find((p) => p.emphasized)?.product_id || null,
     products,
     why: typeof rec.why === "string" ? rec.why : null,
   };

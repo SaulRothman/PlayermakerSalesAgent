@@ -22,7 +22,9 @@
 import "server-only";
 
 import type { AgentTurnRequest, AgentTurnResponse } from "@/lib/agent-protocol";
-import { cleanSignals } from "@/lib/signals";
+import { fetchFitMatch } from "@/lib/catalog";
+import { absorbBuyerSignals, cleanSignals } from "@/lib/signals";
+import { mergePanels, panelFromSkillOutput } from "@/server/devrev-parse";
 import { cancelWait, replyTimeoutMs, waitForWebhookReply } from "@/server/devrev-wait";
 
 export { ingestDevRevEvent, peekSession, waitForWebhookReply } from "@/server/devrev-wait";
@@ -56,7 +58,7 @@ export async function sendToDevRev(turn: AgentTurnRequest): Promise<AgentTurnRes
     throw new Error("DevRev is not configured");
   }
 
-  const signals = cleanSignals(turn.signals);
+  const signals = absorbBuyerSignals(cleanSignals(turn.signals), turn.message || "", turn.chip_id);
   const payload = {
     agent: agentId,
     event: { input_message: { message: visitorMessage(turn) } },
@@ -81,5 +83,36 @@ export async function sendToDevRev(turn: AgentTurnRequest): Promise<AgentTurnRes
     throw new Error(`DevRev agent ${res.status}`);
   }
 
-  return waiting;
+  const reply = await waiting;
+  return attachCatalogPanel(reply, signals);
+}
+
+function canAskCatalog(signals: AgentTurnRequest["signals"]): boolean {
+  if (!signals) return false;
+  if (signals.age !== undefined && signals.wants_man_city_content !== undefined) return true;
+  if (signals.already_owns_kit && (signals.needs || []).length) return true;
+  if (signals.buyer_type === "team_or_club") return true;
+  if (signals.age !== undefined && signals.age <= 7) return true;
+  return false;
+}
+
+async function attachCatalogPanel(
+  reply: AgentTurnResponse,
+  signals: AgentTurnRequest["signals"],
+): Promise<AgentTurnResponse> {
+  const hasCards = Boolean(reply.panel?.products?.length);
+  if (hasCards || !canAskCatalog(signals)) {
+    return { ...reply, signals: { ...signals, ...reply.signals } };
+  }
+  try {
+    const match = await fetchFitMatch(signals || {});
+    const panel = panelFromSkillOutput(match);
+    return {
+      ...reply,
+      panel: mergePanels(reply.panel, panel) || reply.panel,
+      signals: { ...signals, ...reply.signals },
+    };
+  } catch {
+    return { ...reply, signals: { ...signals, ...reply.signals } };
+  }
 }
