@@ -1,13 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { FormEvent, useMemo, useRef, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
 import { AgentMarkdown } from "@/components/AgentMarkdown";
-import { PanelKitCard } from "@/components/PanelKitCard";
+import { LivingCanvas } from "@/components/LivingCanvas";
 import { SiteHeader } from "@/components/SiteHeader";
 import type {
-  AgentChip,
   AgentMessage,
   AgentTurnResponse,
   BuyerSignals,
@@ -19,6 +17,8 @@ import type {
 } from "@/lib/agent-protocol";
 import { mergePanels } from "@/lib/agent-protocol";
 import { absorbBuyerSignals } from "@/lib/signals";
+import { cardsForTranscript, FOLLOWUP_CHIPS, OPENING_CHIPS, type CanvasCard } from "@/lib/canvas-registry";
+import { rankFunnel, type ShelfItem } from "@/lib/funnel";
 
 function newSessionId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
@@ -37,11 +37,9 @@ function readUtm(): UtmContext {
   };
 }
 
-export function DecideExperience() {
+export function DecideExperience({ cards, shelf }: { cards: CanvasCard[]; shelf: ShelfItem[] }) {
   const [sessionId, setSessionId] = useState("");
-  const [started, setStarted] = useState(false);
   const [messages, setMessages] = useState<AgentMessage[]>([]);
-  const [chips, setChips] = useState<AgentChip[]>([]);
   const [panel, setPanel] = useState<PanelState | null>(null);
   const [text, setText] = useState("");
   const [pending, setPending] = useState(false);
@@ -51,15 +49,21 @@ export function DecideExperience() {
   const [parentName, setParentName] = useState("");
   const [email, setEmail] = useState("");
   const [signals, setSignals] = useState<BuyerSignals>({});
-  const startedRef = useRef(false);
   const refreshGen = useRef(0);
+  const transcriptRef = useRef<HTMLOListElement>(null);
 
-  const emphasized = panel?.emphasized_product_id;
+  const recommended = panel?.outcome === "match" || panel?.outcome === "accessory";
+  const suggested = recommended ? FOLLOWUP_CHIPS : OPENING_CHIPS;
+  const funnel = useMemo(() => rankFunnel(shelf, signals, messages, panel), [shelf, signals, messages, panel]);
+  const topicCards = useMemo(
+    () => cardsForTranscript(cards, messages.filter((m) => m.role === "visitor").map((m) => m.text).join("\n")),
+    [cards, messages],
+  );
 
-  const sortedPanel = useMemo(() => {
-    const products = panel?.products || [];
-    return [...products].sort((a, b) => Number(b.product_id === emphasized) - Number(a.product_id === emphasized));
-  }, [panel, emphasized]);
+  useEffect(() => {
+    const node = transcriptRef.current;
+    if (node) node.scrollTop = node.scrollHeight;
+  }, [messages, pending]);
 
   async function send(
     input_type: "start" | "chip" | "text" | "lead",
@@ -69,7 +73,14 @@ export function DecideExperience() {
   ) {
     const sid = sessionId || newSessionId();
     if (!sessionId) setSessionId(sid);
-    const nextSignals = absorbBuyerSignals(signals, message, chip_id);
+    let nextSignals = absorbBuyerSignals(signals, message, chip_id);
+    const lastAgent = [...messages].reverse().find((m) => m.role === "agent")?.text.toLowerCase() || "";
+    if (/man city/.test(lastAgent)) {
+      if (/^(yes|yeah|yep)\b/i.test(message)) nextSignals = { ...nextSignals, wants_man_city_content: true };
+      if (/^(no|nope)\b/i.test(message) || /just the tracker/i.test(message)) {
+        nextSignals = { ...nextSignals, wants_man_city_content: false };
+      }
+    }
     setSignals(nextSignals);
     refreshGen.current += 1;
     setPending(true);
@@ -102,7 +113,6 @@ export function DecideExperience() {
       const data = (await res.json()) as AgentTurnResponse & { error?: string };
       if (!res.ok) throw new Error(data.error || "Agent error");
       setMessages((m) => [...m, ...data.messages]);
-      setChips(data.chips || []);
       setPanel((prev) => mergePanels(prev, data.panel));
       setLeadForm(data.lead_form);
       setLead(data.lead);
@@ -124,33 +134,16 @@ export function DecideExperience() {
       try {
         const res = await fetch(`/api/agent/session?session_id=${encodeURIComponent(sid)}`);
         if (!res.ok) continue;
-        const snap = (await res.json()) as { panel?: PanelState; chips?: AgentChip[] };
+        const snap = (await res.json()) as { panel?: PanelState };
         if (refreshGen.current !== gen) return;
         if (snap.panel?.products?.length) {
           setPanel((prev) => mergePanels(prev, snap.panel));
-          if (snap.chips?.length) setChips(snap.chips);
           return;
         }
       } catch {
         /* keep the last panel; next poll retries */
       }
     }
-  }
-
-  function start() {
-    if (startedRef.current) return;
-    startedRef.current = true;
-    refreshGen.current += 1;
-    setStarted(true);
-    setMessages([]);
-    setChips([]);
-    setPanel(null);
-    setLeadForm(null);
-    setLead(null);
-    setParentName("");
-    setEmail("");
-    setSignals({});
-    void send("start", "");
   }
 
   function onLeadSubmit(e: FormEvent) {
@@ -161,7 +154,7 @@ export function DecideExperience() {
     void send("lead", "", undefined, { parent_name: name, email: mail });
   }
 
-  function onChip(chip: AgentChip) {
+  function onChip(chip: { id: string; label: string }) {
     if (pending) return;
     void send("chip", chip.label, chip.id);
   }
@@ -177,53 +170,31 @@ export function DecideExperience() {
   return (
     <>
       <SiteHeader current="/help-me-decide" />
-      {!started ? (
-        <main>
-          <section className="hero">
-            <div className="wrap">
-              <p className="kicker">Help me choose</p>
-              <h1>Talk to a store manager, not a quiz.</h1>
-              <p className="lede">
-                You are buying for a child. We’ll talk about that child — then show kits from the catalog, or
-                tell you this isn’t for them.
-              </p>
-              <div className="hero-actions">
-                <button className="btn" type="button" onClick={start}>
-                  Help me choose
-                </button>
-                <Link className="btn secondary" href="/products">
-                  See the kits
-                </Link>
-              </div>
-            </div>
-          </section>
-        </main>
-      ) : (
-        <main className="decide">
-          <div className="wrap decide-panes">
-            <section className="decide-chat" aria-label="Conversation">
-              <ol className="transcript" aria-busy={pending} aria-live="polite">
-                {messages.map((m) => (
+      <main className="decide">
+        <div className="wrap decide-panes">
+          <section className="decide-chat" aria-label="Conversation">
+            <ol className="transcript" ref={transcriptRef} aria-busy={pending} aria-live="polite">
+              {messages.length ? (
+                messages.map((m) => (
                   <li key={m.id} className={`bubble ${m.role}`}>
                     {m.role === "agent" ? <AgentMarkdown text={m.text} /> : m.text}
                   </li>
-                ))}
-                {pending ? (
-                  <li className="bubble agent pending" data-thinking="true">
-                    Thinking…
-                  </li>
-                ) : null}
-              </ol>
+                ))
+              ) : (
+                <li className="bubble agent">
+                  Tell me about your player, or start with one of the questions below.
+                </li>
+              )}
+            </ol>
+            <div className="composer-dock">
               {error ? <p className="gap-note">{error}</p> : null}
-              {chips.length ? (
-                <div className="chips" aria-label="Suggested answers">
-                  {chips.map((c) => (
-                    <button key={c.id} type="button" className="chip" disabled={pending} onClick={() => onChip(c)}>
-                      {c.label}
-                    </button>
-                  ))}
-                </div>
-              ) : null}
+              <div className="chips" aria-label="Suggested questions">
+                {suggested.map((c) => (
+                  <button key={c.id} type="button" className="chip" disabled={pending} onClick={() => onChip(c)}>
+                    {c.label}
+                  </button>
+                ))}
+              </div>
               {leadForm?.show ? (
                 <form className="lead-form" onSubmit={onLeadSubmit}>
                   <p className="kicker">{leadForm.title}</p>
@@ -268,30 +239,11 @@ export function DecideExperience() {
                   Send
                 </button>
               </form>
-            </section>
-            <aside className={`decide-panel${sortedPanel.length ? " has-products" : ""}`} aria-label="Product options">
-              <p className="kicker">Options</p>
-              {panel?.why ? <p className="panel-why">{panel.why}</p> : null}
-              {panel?.outcome === "honest_no" ? (
-                <p className="gap-note">This isn’t a fit. We won’t push a kit.</p>
-              ) : null}
-              {sortedPanel.length ? (
-                <div className="panel-grid">
-                  {sortedPanel.map((p) => (
-                    <PanelKitCard
-                      key={p.product_id}
-                      product={p}
-                      emphasized={Boolean(p.emphasized || p.product_id === emphasized)}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <p className="lede">Kits will show up here when the store manager has something to show.</p>
-              )}
-            </aside>
-          </div>
-        </main>
-      )}
+            </div>
+          </section>
+          <LivingCanvas pending={pending} cards={topicCards} funnel={funnel.cards} banner={funnel.banner} />
+        </div>
+      </main>
     </>
   );
 }

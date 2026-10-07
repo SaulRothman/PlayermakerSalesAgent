@@ -38,7 +38,7 @@ export function absorbBuyerSignals(signals: BuyerSignals, text: string, chipId?:
   else if (id === "14-17" || /\b14\s*[–-]\s*17\b/.test(t)) next.age = 15;
   else if (id === "18-plus" || /\b18\+/.test(t)) next.age = 18;
   else {
-    const n = t.match(/\b(\d{1,2})\b/);
+    const n = t.match(/(?:^|\s)(\d{1,2})(?!\.\d)\b/);
     if (n) next.age = Number(n[1]);
   }
 
