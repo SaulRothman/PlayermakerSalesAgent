@@ -30,7 +30,7 @@ export default async function HomePage() {
             </p>
             <div className="hero-actions">
               <Link className="btn" href="/help-me-decide">
-                Help me decide
+                Help me choose
               </Link>
               <Link className="btn secondary" href="/products">
                 See the kits
@@ -56,7 +56,7 @@ export default async function HomePage() {
       </main>
       <div className="sticky-cta">
         <Link className="btn" href="/help-me-decide" style={{ width: "100%" }}>
-          Help me decide
+          Help me choose
         </Link>
       </div>
       <SiteFooter />

@@ -9,3 +9,6 @@ __pycache__/
 .env.*
 !/.env.example
 data/playermaker/leads.json
+
+# Full Player Maker site mirror — too large for git. Design extracts live in web/brand/.
+reference/

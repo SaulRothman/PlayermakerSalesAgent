@@ -5,6 +5,7 @@ import { FormEvent, useMemo, useRef, useState } from "react";
 
 import { AgentMarkdown } from "@/components/AgentMarkdown";
 import { PanelKitCard } from "@/components/PanelKitCard";
+import { SiteHeader } from "@/components/SiteHeader";
 import type {
   AgentChip,
   AgentMessage,
@@ -34,26 +35,6 @@ function readUtm(): UtmContext {
     content: q.get("utm_content") || undefined,
     term: q.get("utm_term") || undefined,
   };
-}
-
-function DecideHeader({ onHelp, started }: { onHelp: () => void; started: boolean }) {
-  return (
-    <header className="site-header">
-      <div className="wrap header-row">
-        <Link className="brand" href="/">
-          Playermaker
-        </Link>
-        <nav className="nav-links" aria-label="Primary">
-          <Link href="/products">Kits</Link>
-          <Link href="/how-it-works">How it works</Link>
-          <Link href="/faq">FAQ</Link>
-        </nav>
-        <button className="btn" type="button" onClick={onHelp} aria-current={started ? "page" : undefined}>
-          Help me decide
-        </button>
-      </div>
-    </header>
-  );
 }
 
 export function DecideExperience() {
@@ -195,12 +176,12 @@ export function DecideExperience() {
 
   return (
     <>
-      <DecideHeader onHelp={start} started={started} />
+      <SiteHeader current="/help-me-decide" />
       {!started ? (
         <main>
           <section className="hero">
             <div className="wrap">
-              <p className="kicker">Help me decide</p>
+              <p className="kicker">Help me choose</p>
               <h1>Talk to a store manager, not a quiz.</h1>
               <p className="lede">
                 You are buying for a child. We’ll talk about that child — then show kits from the catalog, or
@@ -208,7 +189,7 @@ export function DecideExperience() {
               </p>
               <div className="hero-actions">
                 <button className="btn" type="button" onClick={start}>
-                  Help me decide
+                  Help me choose
                 </button>
                 <Link className="btn secondary" href="/products">
                   See the kits

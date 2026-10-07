@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
-import { Oswald, Source_Sans_3 } from "next/font/google";
+import localFont from "next/font/local";
 
 import "./globals.css";
 
-const display = Oswald({ subsets: ["latin"], variable: "--font-display" });
-const body = Source_Sans_3({ subsets: ["latin"], variable: "--font-body" });
+const maison = localFont({
+  src: [
+    { path: "../../brand/fonts/MaisonNeue-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../../brand/fonts/MaisonNeue-DemiBold.woff2", weight: "600", style: "normal" },
+  ],
+  variable: "--font-maison",
+  display: "swap",
+});
 
 export const dynamic = "force-dynamic";
 
@@ -15,8 +21,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
-      <body className={body.className}>{children}</body>
+    <html lang="en" className={maison.variable}>
+      <body className={maison.className}>{children}</body>
     </html>
   );
 }

@@ -1,0 +1,23 @@
+/* Tokens taken from the live Playermaker storefront (index.html + header CSS).
+   Maison Neue @font-face weights are loaded in layout.tsx. */
+
+:root {
+  --pm-font: "Maison Neue", "Avenir Next", "Segoe UI", sans-serif;
+  --pm-bg: #ffffff;
+  --pm-bg-muted: #f3f3f3;
+  --pm-ink: #121212;
+  --pm-muted: #5c5c5c;
+  --pm-header: #06162f;
+  --pm-header-text: #ffffff;
+  --pm-accent: #ff0083;
+  --pm-accent-ink: #ffffff;
+  --pm-line: rgba(18, 18, 18, 0.12);
+  --pm-header-height: 76px;
+  --pm-page-width: 1440px;
+  --pm-nav-size: 15px;
+  --pm-nav-gap: 30px;
+  --pm-button-radius: 0px;
+  --pm-pill-radius: 120px;
+  --pm-space-header-x: 15px;
+  --pm-space-header-y: 20px;
+}

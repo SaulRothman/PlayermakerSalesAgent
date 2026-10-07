@@ -73,7 +73,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               ) : null}
               <div className="hero-actions">
                 <Link className="btn" href="/help-me-decide">
-                  Help me decide
+                  Help me choose
                 </Link>
                 <a className="btn secondary" href={product.url}>
                   Official product page
