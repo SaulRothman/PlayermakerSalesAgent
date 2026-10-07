@@ -30,6 +30,68 @@ def test_fit_match_honest_no(client):
     assert r.json()["best_fit_product_id"] is None
 
 
+def test_fit_match_blank_age_is_need_more_not_422(client):
+    r = client.post("/v1/fit/match", json={"signals": {"age": "", "wants_man_city_content": False}})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["outcome"] == "need_more"
+    assert "age" in body["missing_signals"]
+    assert body["best_fit_product_id"] is None
+
+
+def test_fit_match_null_placeholders_still_cityplay(client):
+    r = client.post(
+        "/v1/fit/match",
+        json={
+            "signals": {
+                "age": 13,
+                "wants_man_city_content": True,
+                "already_owns_kit": None,
+                "position": None,
+            }
+        },
+    )
+    assert r.status_code == 200
+    body = r.json()
+    assert body["outcome"] == "match"
+    assert body["best_fit_product_id"] == "cityplay"
+
+
+def test_fit_explain_and_compare_ignore_unknown_placeholders(client):
+    explain = client.post(
+        "/v1/fit/explain",
+        json={"product_id": "cityplay", "signals": {"age": "unknown", "position": "", "buyer_type": "unknown"}},
+    )
+    assert explain.status_code == 200
+    compare = client.post(
+        "/v1/fit/compare",
+        json={"product_ids": ["playermaker-2.0", "cityplay"], "signals": {"age": "", "shoe_size": "unknown"}},
+    )
+    assert compare.status_code == 200
+    assert compare.json()["recommendation"]["outcome"] == "need_more"
+
+
+def test_lead_blank_signal_placeholders(client, monkeypatch):
+    monkeypatch.delenv("DEVREV_PAT", raising=False)
+    r = client.post(
+        "/v1/leads",
+        json={
+            "session_id": "s-blank",
+            "parent_name": "Pat",
+            "email": "pat@example.com",
+            "outcome": "",
+            "product_id": "unknown",
+            "signals": {"age": "", "position": None, "wants_man_city_content": "unknown"},
+        },
+    )
+    assert r.status_code == 201
+    lead = r.json()["lead"]
+    assert lead["outcome"] == "none"
+    assert lead["product_id"] is None
+    assert "age" not in lead["signals"]
+    assert "position" not in lead["signals"]
+
+
 def test_fit_match_cityplay(client):
     r = client.post("/v1/fit/match", json={"signals": {"age": 13, "wants_man_city_content": True}})
     assert r.status_code == 200

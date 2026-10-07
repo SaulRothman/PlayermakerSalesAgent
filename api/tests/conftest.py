@@ -17,6 +17,7 @@ SRC_DATA = REPO / "data" / "playermaker"
 def data_dir(tmp_path: Path) -> Path:
     dest = tmp_path / "playermaker"
     shutil.copytree(SRC_DATA, dest)
+    (dest / "leads.json").unlink(missing_ok=True)
     return dest
 
 

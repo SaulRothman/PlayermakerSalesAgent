@@ -4,16 +4,88 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 API_VERSION = "1.0"
 
+# Empty and placeholder strings are not answers. They must not 422 and must not match a rule.
+_ABSENT = frozenset({"", "unknown", "n/a", "na", "none", "null", "undefined", "nil", "placeholder"})
+
+
+def _absent(value: Any) -> bool:
+    if value is None:
+        return True
+    if isinstance(value, str) and value.strip().lower() in _ABSENT:
+        return True
+    return False
+
+
+def _coerce_age(value: Any) -> int | None:
+    if _absent(value) or isinstance(value, bool):
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, float) and value == int(value):
+        return int(value)
+    if isinstance(value, str):
+        text = value.strip()
+        if not text or text.lower() in _ABSENT:
+            return None
+        try:
+            number = float(text)
+        except ValueError:
+            return None
+        if number != int(number):
+            return None
+        return int(number)
+    return None
+
+
+def _coerce_bool(value: Any) -> bool | None:
+    if _absent(value):
+        return None
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        text = value.strip().lower()
+        if text in {"true", "yes", "y", "1"}:
+            return True
+        if text in {"false", "no", "n", "0"}:
+            return False
+    return None
+
+
+def _coerce_text(value: Any) -> str | None:
+    if _absent(value):
+        return None
+    if isinstance(value, str):
+        text = value.strip()
+        return None if not text or text.lower() in _ABSENT else text
+    return None
+
+
+def _coerce_list(value: Any) -> list[str]:
+    if _absent(value):
+        return []
+    items = [value] if isinstance(value, str) else value
+    if not isinstance(items, list):
+        return []
+    out: list[str] = []
+    for item in items:
+        text = _coerce_text(item)
+        if text:
+            out.append(text)
+    return out
+
 
 class BuyerSignals(BaseModel):
-    """Buyer attributes collected by the agent. Unknown fields are ignored."""
+    """Buyer attributes collected by the agent. Unknown fields are ignored.
 
-    age: int | None = Field(default=None, ge=0, le=80, description="Player age in years")
+    null, "", and placeholders such as "unknown" are absent — not values and not errors.
+    """
+
+    age: int | None = Field(default=None, description="Player age in years. Absent when missing or not numeric.")
     wants_man_city_content: bool | None = None
     already_owns_kit: bool | None = None
     needs: list[str] = Field(default_factory=list)
@@ -30,6 +102,27 @@ class BuyerSignals(BaseModel):
     shoe_size_system: str | None = Field(default=None, description="uk | us | eu if the buyer states it")
 
     model_config = {"extra": "ignore"}
+
+    @model_validator(mode="before")
+    @classmethod
+    def blank_placeholders(cls, data: Any) -> Any:
+        if data is None:
+            return {}
+        if not isinstance(data, dict):
+            return {}
+        out = dict(data)
+        if "age" in out:
+            out["age"] = _coerce_age(out["age"])
+        for key in ("wants_man_city_content", "already_owns_kit"):
+            if key in out:
+                out[key] = _coerce_bool(out[key])
+        for key in ("buyer_type", "position", "shoe_size", "shoe_size_system"):
+            if key in out:
+                out[key] = _coerce_text(out[key])
+        for key in ("needs", "environment"):
+            if key in out:
+                out[key] = _coerce_list(out[key])
+        return out
 
 
 class Envelope(BaseModel):
@@ -147,3 +240,23 @@ class LeadIn(BaseModel):
     signals: dict[str, Any] = Field(default_factory=dict)
     utm: dict[str, Any] = Field(default_factory=dict)
     source: str = "help-me-decide"
+
+    @model_validator(mode="before")
+    @classmethod
+    def blank_placeholders(cls, data: Any) -> Any:
+        if not isinstance(data, dict):
+            return data
+        out = dict(data)
+        if _absent(out.get("outcome")):
+            out["outcome"] = "none"
+        if "product_id" in out:
+            out["product_id"] = _coerce_text(out["product_id"])
+        if "why" in out:
+            out["why"] = _coerce_text(out["why"])
+        raw = out.get("signals")
+        if raw is None or _absent(raw):
+            out["signals"] = {}
+        elif isinstance(raw, dict):
+            cleaned = BuyerSignals.model_validate(raw).model_dump()
+            out["signals"] = {key: value for key, value in cleaned.items() if value not in (None, [], "")}
+        return out
