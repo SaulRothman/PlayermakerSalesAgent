@@ -18,10 +18,12 @@ export async function GET(req: Request) {
  * ai_agent_response → match session_object (page session_id) and settle the waiter.
  */
 export async function POST(req: Request) {
+  const started = Date.now();
   let body: Record<string, unknown>;
   try {
     body = (await req.json()) as Record<string, unknown>;
   } catch {
+    console.log(`[agent/events] POST type=invalid session=— elapsed_ms=${Date.now() - started}`);
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
   const result = ingestDevRevEvent(body, req.headers);
@@ -54,7 +56,7 @@ export async function POST(req: Request) {
     .filter(Boolean)
     .join(" ");
   console.log(
-    `[agent/events] type=${type} session=${session || "—"} http=${result.challenge ? 200 : result.status} ${flags} keys=${keyList}${preview ? ` preview=${JSON.stringify(preview)}` : ""}`,
+    `[agent/events] POST type=${type} session=${session || "—"} http=${result.challenge ? 200 : result.status} elapsed_ms=${Date.now() - started} ${flags} keys=${keyList}${preview ? ` preview=${JSON.stringify(preview)}` : ""}`,
   );
   if (result.challenge) {
     return NextResponse.json({ challenge: result.challenge });

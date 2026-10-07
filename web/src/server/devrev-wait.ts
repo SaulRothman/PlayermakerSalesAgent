@@ -20,7 +20,7 @@ import {
   unwrapFitPayload,
 } from "@/server/devrev-parse";
 
-export const DEFAULT_REPLY_TIMEOUT_MS = 25_000;
+export const DEFAULT_REPLY_TIMEOUT_MS = 60_000;
 export const FALLBACK_TEXT =
   "I didn’t hear back from the store manager in time. Try that again — I won’t guess a kit.";
 
@@ -35,6 +35,8 @@ type Inbox = {
   waiter?: {
     resolve: (value: AgentTurnResponse) => void;
     timer: ReturnType<typeof setTimeout>;
+    startedAt: number;
+    timeoutMs: number;
   };
   settled?: AgentTurnResponse;
 };
@@ -165,10 +167,11 @@ export function eventKey(inner: Record<string, unknown>, sessionId: string): str
   ].join("|");
 }
 
+/** Live wait is DEVREV_REPLY_TIMEOUT_MS, else 60000. Harness may pass a shorter override. */
 export function replyTimeoutMs(override?: number): number {
-  if (override && override >= 200 && override <= 60_000) return override;
+  if (override && override >= 200 && override <= 120_000) return override;
   const env = Number(process.env.DEVREV_REPLY_TIMEOUT_MS);
-  if (Number.isFinite(env) && env >= 200) return env;
+  if (Number.isFinite(env) && env >= 200 && env <= 120_000) return env;
   return DEFAULT_REPLY_TIMEOUT_MS;
 }
 
@@ -197,12 +200,16 @@ function mergeReply(box: Inbox, partial: AgentTurnResponse): AgentTurnResponse {
   };
 }
 
-function settle(sessionId: string, box: Inbox, reply: AgentTurnResponse): void {
+function settle(sessionId: string, box: Inbox, reply: AgentTurnResponse, reason: "webhook" | "timeout"): void {
   box.settled = reply;
   const waiter = box.waiter;
   box.waiter = undefined;
   if (waiter) {
     clearTimeout(waiter.timer);
+    const after = Date.now() - waiter.startedAt;
+    console.log(
+      `[agent/wait] ${reason} session=${sessionId} after_ms=${after} timeout_ms=${waiter.timeoutMs}`,
+    );
     waiter.resolve(reply);
   }
 }
@@ -227,12 +234,14 @@ export function waitForWebhookReply(
 
   return new Promise((resolve) => {
     const ms = replyTimeoutMs(timeoutMs);
+    const startedAt = Date.now();
+    console.log(`[agent/wait] start session=${sessionId} timeout_ms=${ms}`);
     const timer = setTimeout(() => {
       const current = inboxes.get(sessionId);
       if (!current || current.waiter?.resolve !== resolve) return;
-      settle(sessionId, current, fallbackReply(sessionId, current.signals));
+      settle(sessionId, current, fallbackReply(sessionId, current.signals), "timeout");
     }, ms);
-    box.waiter = { resolve, timer };
+    box.waiter = { resolve, timer, startedAt, timeoutMs: ms };
   });
 }
 
@@ -359,7 +368,7 @@ export function ingestDevRevEvent(body: Record<string, unknown>, headers?: Heade
       done: false,
       source: "devrev",
     };
-    settle(sessionId, box, reply);
+    settle(sessionId, box, reply, "webhook");
     return { ok: true, status: 200 };
   }
 
@@ -372,7 +381,7 @@ export function ingestDevRevEvent(body: Record<string, unknown>, headers?: Heade
     if (merged.panel.outcome === "none") {
       scheduleSettle(sessionId, box, merged);
     } else {
-      settle(sessionId, box, merged);
+      settle(sessionId, box, merged, "webhook");
     }
   } else {
     box.queued = merged;
@@ -387,7 +396,7 @@ function scheduleSettle(sessionId: string, box: Inbox, merged: AgentTurnResponse
       if (current && !current.settled) current.queued = mergeReply(current, merged);
       return;
     }
-    settle(sessionId, current, mergeReply(current, merged));
+    settle(sessionId, current, mergeReply(current, merged), "webhook");
   }, SETTLE_GRACE_MS);
 }
 

@@ -39,7 +39,7 @@ Set these in `web/.env.local` (never `NEXT_PUBLIC_*`, never commit real values).
 | `DEVREV_AGENT_ID` | yes (set) | `don:core:dvrv-us-1:devo/111SOeMpZI:ai_agent/73` |
 | `DEVREV_AGENT_ENDPOINT` | yes (already set) | `https://api.devrev.ai/internal/ai-agents.events.execute-async` |
 | `DEVREV_WEBHOOK_ID` | yes | Webhook DON subscribed to `AI_AGENT_RESPONSE`. Sent as `webhook_target.webhook`. Also used to verify inbound callbacks. |
-| `DEVREV_REPLY_TIMEOUT_MS` | no | Defaults to `25000`. `/api/agent` returns a fallback **200** (does not hang). |
+| `DEVREV_REPLY_TIMEOUT_MS` | no | Defaults to `60000`. `/api/agent` returns a fallback **200** (does not hang). |
 
 Still needed from you (PAT, endpoint, and agent id are stored):
 

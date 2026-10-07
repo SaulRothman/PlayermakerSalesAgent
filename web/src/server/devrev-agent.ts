@@ -15,7 +15,7 @@
  *   DEVREV_AGENT_ID=don:core:dvrv-us-1:devo/111SOeMpZI:ai_agent/73
  *   DEVREV_AGENT_ENDPOINT=https://api.devrev.ai/internal/ai-agents.events.execute-async
  *   DEVREV_WEBHOOK_ID=          (webhook DON — required)
- *   DEVREV_REPLY_TIMEOUT_MS=25000
+ *   DEVREV_REPLY_TIMEOUT_MS=60000
  *
  * Never returns the PAT. devrevConfigured() is the mock ↔ live switch.
  */
@@ -66,7 +66,7 @@ export async function sendToDevRev(turn: AgentTurnRequest): Promise<AgentTurnRes
     webhook_target: { webhook: webhookId },
   };
 
-  const waiting = waitForWebhookReply(turn.session_id, signals, replyTimeoutMs());
+  const waiting = waitForWebhookReply(turn.session_id, signals);
 
   const res = await fetch(endpoint, {
     method: "POST",
