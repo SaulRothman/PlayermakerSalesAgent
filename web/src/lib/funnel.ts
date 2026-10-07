@@ -20,7 +20,15 @@ export type FunnelCard = ShelfItem & {
   showOrder: boolean;
 };
 
-export type FunnelBanner = { tone: "honest_no" | "lead"; text: string } | null;
+export type FunnelMode = "shelf" | "honest_no" | "lead" | "accessory" | "need_more";
+
+export type FunnelOutcome = {
+  mode: FunnelMode;
+  headline: string;
+  body: string;
+  actionLabel?: string;
+  href?: string;
+};
 
 const STATE_RANK: Record<FunnelState, number> = {
   leading: 0,
@@ -32,7 +40,17 @@ const STATE_RANK: Record<FunnelState, number> = {
 const UNDER_8 =
   "Playermaker says it is designed for footballers starting from 8 years old. Under 8 is outside the stated range.";
 const TEAM =
-  "The B2C catalog has individual kits only. Teams get separate packages — those SKUs are not in this product list.";
+  "The B2C catalog has individual kits only. FAQ says teams get separate packages and a Coach Dashboard at different price points — those SKUs are not in the public product list.";
+const STRAPS =
+  "Extra Straps are the storefront accessory for holding existing Playermaker sensors; they are not a tracker kit.";
+const FOR_TEAMS = "https://www.playermaker.com/pages/teams";
+
+const SIGNAL_LABEL: Record<string, string> = {
+  age: "their age",
+  wants_man_city_content: "whether they want Man City content",
+  already_owns_kit: "whether you already own a kit",
+  buyer_type: "whether this is for one player or a team",
+};
 
 type Journey = {
   age?: number;
@@ -92,7 +110,7 @@ export function rankFunnel(
   signals: BuyerSignals,
   messages: Array<{ role: string; text: string }>,
   agent: PanelState | null,
-): { cards: FunnelCard[]; banner: FunnelBanner } {
+): { cards: FunnelCard[]; outcome: FunnelOutcome | null } {
   const journey = readJourney(signals, messages);
   const premium = cityPremium(shelf);
   const cards: FunnelCard[] = shelf.map((item) => ({
@@ -110,19 +128,35 @@ export function rankFunnel(
     }
   };
 
-  let banner: FunnelBanner = null;
+  let outcome: FunnelOutcome | null = null;
   const kits = ["playermaker-2.0", "cityplay"];
+  let mode: FunnelMode = "shelf";
 
   if (journey.age !== undefined && journey.age <= 7) {
-    banner = { tone: "honest_no", text: `8+ only. ${UNDER_8}` };
+    mode = "honest_no";
+    outcome = {
+      mode,
+      headline: "Not just yet — Playermaker is built for ages 8+.",
+      body: UNDER_8,
+      actionLabel: "Email me when they're ready",
+    };
     for (const card of cards) set(card.product_id, "ruled_out", "8+ only");
   } else if (journey.straps) {
+    mode = "accessory";
+    outcome = { mode, headline: "You just need straps.", body: STRAPS };
     set("extra-straps", "leading");
-    set("playermaker-2.0", "fading", "You already have the sensors.");
-    set("cityplay", "fading", "You already have the sensors.");
+    set("playermaker-2.0", "ruled_out", "You already have the sensors.");
+    set("cityplay", "ruled_out", "You already have the sensors.");
   } else if (journey.team) {
-    banner = { tone: "lead", text: TEAM };
-    for (const card of cards) set(card.product_id, "ruled_out", "Team packages aren't sold as a boxed kit.");
+    mode = "lead";
+    outcome = {
+      mode,
+      headline: "Teams get a dedicated package.",
+      body: TEAM,
+      actionLabel: "Connect me with the team desk",
+      href: FOR_TEAMS,
+    };
+    for (const card of cards) set(card.product_id, "ruled_out", "Not a boxed kit for a squad.");
   } else if (journey.age !== undefined && journey.age >= 8 && journey.city === true) {
     set("cityplay", "leading");
     set("playermaker-2.0", "fading", "no Man City content");
@@ -150,16 +184,43 @@ export function rankFunnel(
     }
   }
 
-  applyAgent(cards, agent);
+  if (!outcome && messages.some((m) => m.role === "visitor")) {
+    const missing = missingLabels(journey, agent);
+    if (missing.length && mode === "shelf" && !cards.some((c) => c.state === "leading")) {
+      outcome = {
+        mode: "need_more",
+        headline: "A couple more questions and I'll narrow this down.",
+        body: `Still need ${missing.join(" and ")}.`,
+      };
+    }
+  }
+
+  applyAgent(cards, agent, mode);
   const converged = cards.some((c) => c.state === "leading");
-  for (const card of cards) card.showOrder = converged && card.state === "leading" && Boolean(card.url);
+  for (const card of cards) {
+    card.showOrder = mode !== "honest_no" && mode !== "lead" && converged && card.state === "leading" && Boolean(card.url);
+  }
 
   cards.sort((a, b) => STATE_RANK[a.state] - STATE_RANK[b.state]);
-  return { cards, banner };
+  return { cards, outcome };
 }
 
-function applyAgent(cards: FunnelCard[], agent: PanelState | null) {
+function missingLabels(journey: Journey, agent: PanelState | null): string[] {
+  const fromAgent = (agent?.missing_signals || []).map((id) => SIGNAL_LABEL[id] || id.replace(/_/g, " "));
+  if (agent?.outcome === "need_more" && fromAgent.length) return fromAgent;
+  const missing: string[] = [];
+  if (journey.age === undefined) missing.push("their age");
+  else if (journey.age >= 8 && journey.city === undefined && !journey.straps && !journey.team) {
+    missing.push("whether they want Man City content");
+  }
+  return missing;
+}
+
+function applyAgent(cards: FunnelCard[], agent: PanelState | null, mode: FunnelMode) {
   if (!agent) return;
+  if (agent.outcome === "honest_no" && mode !== "honest_no") return;
+  if (agent.outcome === "lead" && mode !== "lead") return;
+  if (agent.outcome === "accessory" && mode !== "accessory") return;
   const fromAgent = new Map<string, PanelProduct>();
   for (const product of agent.products || []) fromAgent.set(product.product_id, product);
   for (const card of cards) {

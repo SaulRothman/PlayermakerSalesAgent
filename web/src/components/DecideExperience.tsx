@@ -241,7 +241,18 @@ export function DecideExperience({ cards, shelf }: { cards: CanvasCard[]; shelf:
               </form>
             </div>
           </section>
-          <LivingCanvas pending={pending} cards={topicCards} funnel={funnel.cards} banner={funnel.banner} />
+          <LivingCanvas
+            pending={pending}
+            cards={topicCards}
+            funnel={funnel.cards}
+            outcome={funnel.outcome}
+            captured={Boolean(lead?.captured)}
+            onCapture={(outcome, name, email) => {
+              setParentName(name);
+              setEmail(email);
+              void send("lead", "", undefined, { parent_name: name, email, outcome });
+            }}
+          />
         </div>
       </main>
     </>

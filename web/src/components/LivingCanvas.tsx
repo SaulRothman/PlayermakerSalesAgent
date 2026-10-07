@@ -1,6 +1,9 @@
-import type { CanvasCard, CanvasImageKey } from "@/lib/canvas-registry";
-import type { FunnelBanner, FunnelCard } from "@/lib/funnel";
+import { FormEvent, useState } from "react";
 
+import type { CanvasCard, CanvasImageKey } from "@/lib/canvas-registry";
+import type { FunnelCard, FunnelOutcome } from "@/lib/funnel";
+
+import teams from "../../brand/images/for-teams.webp";
 import boot from "../../brand/images/product-slide-boot.png";
 import research from "../../brand/images/research-hero.webp";
 import sensors from "../../brand/images/sensors-on-boot.webp";
@@ -20,12 +23,16 @@ export function LivingCanvas({
   pending,
   cards,
   funnel,
-  banner,
+  outcome,
+  captured,
+  onCapture,
 }: {
   pending: boolean;
   cards: CanvasCard[];
   funnel: FunnelCard[];
-  banner: FunnelBanner;
+  outcome: FunnelOutcome | null;
+  captured: boolean;
+  onCapture: (outcome: "honest_no" | "lead", name: string, email: string) => void;
 }) {
   return (
     <aside className="decide-panel" aria-label="Options">
@@ -40,7 +47,9 @@ export function LivingCanvas({
           Narrowing…
         </div>
       ) : null}
-      {banner ? <p className={banner.tone === "honest_no" ? "gap-note" : "panel-why"}>{banner.text}</p> : null}
+      {outcome && outcome.mode !== "shelf" ? (
+        <OutcomePane outcome={outcome} captured={captured} pending={pending} onCapture={onCapture} />
+      ) : null}
       {funnel.length ? (
         <div className="panel-grid funnel">
           {funnel.map((card) => (
@@ -79,5 +88,67 @@ export function LivingCanvas({
         </div>
       ) : null}
     </aside>
+  );
+}
+
+function OutcomePane({
+  outcome,
+  captured,
+  pending,
+  onCapture,
+}: {
+  outcome: FunnelOutcome;
+  captured: boolean;
+  pending: boolean;
+  onCapture: (outcome: "honest_no" | "lead", name: string, email: string) => void;
+}) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const tone = outcome.mode === "honest_no" ? "warm" : outcome.mode === "lead" ? "teams" : "note";
+
+  function submit(e: FormEvent) {
+    e.preventDefault();
+    if (outcome.mode !== "honest_no" && outcome.mode !== "lead") return;
+    if (!name.trim() || !email.trim() || pending) return;
+    onCapture(outcome.mode, name.trim(), email.trim());
+  }
+
+  return (
+    <section className={`outcome-pane ${tone}`} aria-live="polite">
+      {outcome.mode === "lead" ? <img src={teams.src} alt="Playermaker for teams" /> : null}
+      <h2>{outcome.headline}</h2>
+      <p>{outcome.body}</p>
+      {outcome.href ? (
+        <a className="btn secondary outcome-link" href={outcome.href} target="_blank" rel="noreferrer">
+          For Teams page
+        </a>
+      ) : null}
+      {outcome.actionLabel && (outcome.mode === "honest_no" || outcome.mode === "lead") ? (
+        captured ? (
+          <p className="lead-note">Noted. We’ll follow up at the email you left.</p>
+        ) : (
+          <form className="lead-form" onSubmit={submit}>
+            <label className="lead-field">
+              <span>Your name</span>
+              <input value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" required disabled={pending} />
+            </label>
+            <label className="lead-field">
+              <span>Email</span>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
+                required
+                disabled={pending}
+              />
+            </label>
+            <button className="btn" type="submit" disabled={pending || !name.trim() || !email.trim()}>
+              {outcome.actionLabel}
+            </button>
+          </form>
+        )
+      ) : null}
+    </section>
   );
 }

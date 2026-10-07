@@ -44,7 +44,8 @@ function visitorMessage(turn: AgentTurnRequest): string {
   if (turn.input_type === "lead") {
     const name = turn.profile?.parent_name || "";
     const email = turn.profile?.email || "";
-    return `[lead] session_id=${turn.session_id} parent_name=${name} email=${email}`;
+    const outcome = turn.profile?.outcome ? ` outcome=${turn.profile.outcome}` : "";
+    return `[lead] session_id=${turn.session_id} parent_name=${name} email=${email}${outcome}`;
   }
   return turn.message;
 }

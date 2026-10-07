@@ -30,6 +30,7 @@ export type PanelState = {
   emphasized_product_id: string | null;
   products: PanelProduct[];
   why: string | null;
+  missing_signals?: string[];
 };
 
 /** Keep a filled options panel across later chat turns that don't re-send products. */
@@ -67,6 +68,7 @@ export type BuyerSignals = {
 export type LeadProfile = {
   parent_name?: string;
   email?: string;
+  outcome?: "honest_no" | "lead";
 };
 
 export type LeadFormField = {

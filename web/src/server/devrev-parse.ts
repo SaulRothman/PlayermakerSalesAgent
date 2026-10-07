@@ -195,11 +195,13 @@ export function panelFromSkillOutput(output: unknown): PanelState | null {
 
   if (!products.length && outcome === "none" && !rec.why) return null;
 
+  const missing = Array.isArray(rec.missing_signals) ? rec.missing_signals.map(String).filter(Boolean) : [];
   return {
     outcome,
     emphasized_product_id: hideCards ? null : emphasized || products.find((p) => p.emphasized)?.product_id || null,
     products,
     why: typeof rec.why === "string" ? rec.why : null,
+    ...(missing.length ? { missing_signals: missing } : {}),
   };
 }
 
