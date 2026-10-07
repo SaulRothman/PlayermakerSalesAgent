@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useMemo, useRef, useState } from "react";
 
+import { AgentMarkdown } from "@/components/AgentMarkdown";
 import { PanelKitCard } from "@/components/PanelKitCard";
 import type {
   AgentChip,
@@ -223,7 +224,7 @@ export function DecideExperience() {
               <ol className="transcript" aria-busy={pending} aria-live="polite">
                 {messages.map((m) => (
                   <li key={m.id} className={`bubble ${m.role}`}>
-                    {m.text}
+                    {m.role === "agent" ? <AgentMarkdown text={m.text} /> : m.text}
                   </li>
                 ))}
                 {pending ? (
