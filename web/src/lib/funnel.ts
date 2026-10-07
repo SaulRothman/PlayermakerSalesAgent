@@ -18,6 +18,8 @@ export type FunnelCard = ShelfItem & {
   state: FunnelState;
   reason: string | null;
   showOrder: boolean;
+  orderTone: "primary" | "secondary";
+  badge: "likely" | "best" | null;
 };
 
 export type FunnelMode = "shelf" | "honest_no" | "lead" | "accessory" | "need_more";
@@ -124,6 +126,8 @@ export function rankFunnel(
     state: "candidate",
     reason: null,
     showOrder: false,
+    orderTone: "secondary",
+    badge: null,
   }));
 
   const set = (id: string, state: FunnelState, reason: string | null = null) => {
@@ -199,9 +203,16 @@ export function rankFunnel(
   }
 
   applyAgent(cards, agent, mode);
-  const converged = cards.some((c) => c.state === "leading");
+  const cityKnown = journey.city === true || journey.city === false;
+  const locked = cityKnown || mode === "accessory";
   for (const card of cards) {
-    card.showOrder = mode !== "honest_no" && mode !== "lead" && converged && card.state === "leading" && Boolean(card.url);
+    const hideOrder = mode === "honest_no" || mode === "lead" || card.state === "ruled_out" || !card.url;
+    card.showOrder = !hideOrder;
+    card.orderTone = locked && card.state === "leading" ? "primary" : "secondary";
+    if (locked && card.state === "leading") card.badge = "best";
+    else if (!locked && card.state === "candidate" && (card.product_id === "playermaker-2.0" || card.product_id === "cityplay") && journey.age !== undefined && journey.age >= 8) {
+      card.badge = "likely";
+    } else card.badge = null;
   }
 
   cards.sort((a, b) => STATE_RANK[a.state] - STATE_RANK[b.state]);

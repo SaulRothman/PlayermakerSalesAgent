@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useLayoutEffect, useRef, useState } from "react";
 
 import type { CanvasCard, CanvasImageKey } from "@/lib/canvas-registry";
 import type { FunnelCard, FunnelOutcome } from "@/lib/funnel";
@@ -34,6 +34,26 @@ export function LivingCanvas({
   captured: boolean;
   onCapture: (outcome: "honest_no" | "lead", name: string, email: string) => void;
 }) {
+  const listRef = useRef<HTMLDivElement>(null);
+  const tops = useRef<Map<string, number>>(new Map());
+  useLayoutEffect(() => {
+    const root = listRef.current;
+    if (!root) return;
+    const next = new Map<string, number>();
+    root.querySelectorAll<HTMLElement>("[data-product-id]").forEach((node) => {
+      const id = node.dataset.productId || "";
+      const top = node.getBoundingClientRect().top;
+      const previous = tops.current.get(id);
+      if (previous != null && Math.abs(previous - top) > 1) {
+        node.animate([{ transform: `translateY(${previous - top}px)` }, { transform: "translateY(0)" }], {
+          duration: 250,
+          easing: "ease",
+        });
+      }
+      next.set(id, top);
+    });
+    tops.current = next;
+  }, [funnel]);
   return (
     <aside className="decide-panel" aria-label="Options">
       <p className="kicker">Options</p>
@@ -51,15 +71,17 @@ export function LivingCanvas({
         <OutcomePane outcome={outcome} captured={captured} pending={pending} onCapture={onCapture} />
       ) : null}
       {funnel.length ? (
-        <div className="panel-grid funnel">
+        <div className="panel-grid funnel" ref={listRef}>
           {funnel.map((card) => (
             <PanelKitCard
               key={card.product_id}
-              product={{ ...card, emphasized: card.state === "leading" }}
-              emphasized={card.state === "leading"}
+              product={{ ...card, emphasized: card.badge === "best" }}
+              emphasized={card.badge === "best"}
               state={card.state}
               reason={card.reason}
               showOrder={card.showOrder}
+              orderTone={card.orderTone}
+              badge={card.badge}
             />
           ))}
         </div>
