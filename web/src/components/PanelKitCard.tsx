@@ -32,6 +32,7 @@ export function PanelKitCard({
 }) {
   const role = product.role ? ROLE_LABEL[product.role] || product.role.replace(/_/g, " ") : "";
   const href = product.url || KNOWN_URLS[product.product_id] || "";
+  const name = product.product_id === "cityplay" ? "CITYPLAY (the Man City edition)" : product.name;
   const label = badge === "best" ? "Best match" : badge === "likely" ? "Likely fit" : role;
   return (
     <article className={`rank-row funnel-card ${state}`} data-product-id={product.product_id}>
@@ -39,7 +40,7 @@ export function PanelKitCard({
       <div className="rank-copy">
         {label ? <p className={`role${badge === "likely" ? " likely" : ""}`}>{label}</p> : null}
         <div className="meta-row">
-          <h3>{product.name}</h3>
+          <h3>{name}</h3>
           {product.price ? <span className="price">{product.price}</span> : null}
         </div>
         {reason ? <p className="funnel-reason">{reason}</p> : null}

@@ -17,7 +17,7 @@ import type {
 } from "@/lib/agent-protocol";
 import { mergePanels } from "@/lib/agent-protocol";
 import { absorbBuyerSignals } from "@/lib/signals";
-import { cardsForTranscript, FOLLOWUP_CHIPS, OPENING_CHIPS, type CanvasCard } from "@/lib/canvas-registry";
+import { cardForLatest, DECIDER_CHIPS, FOLLOWUP_CHIPS, OPENING_CHIPS, type CanvasCard } from "@/lib/canvas-registry";
 import { rankFunnel, type ShelfItem } from "@/lib/funnel";
 
 function newSessionId(): string {
@@ -53,12 +53,17 @@ export function DecideExperience({ cards, shelf }: { cards: CanvasCard[]; shelf:
   const transcriptRef = useRef<HTMLOListElement>(null);
 
   const recommended = panel?.outcome === "match" || panel?.outcome === "accessory";
-  const suggested = recommended ? FOLLOWUP_CHIPS : OPENING_CHIPS;
   const funnel = useMemo(() => rankFunnel(shelf, signals, messages, panel), [shelf, signals, messages, panel]);
-  const topicCards = useMemo(
-    () => cardsForTranscript(cards, messages.filter((m) => m.role === "visitor").map((m) => m.text).join("\n")),
-    [cards, messages],
-  );
+  const waitingOnKit =
+    signals.age !== undefined &&
+    signals.age >= 8 &&
+    signals.wants_man_city_content === undefined &&
+    funnel.outcome?.mode !== "honest_no" &&
+    funnel.outcome?.mode !== "lead" &&
+    funnel.outcome?.mode !== "accessory";
+  const suggested = recommended ? FOLLOWUP_CHIPS : waitingOnKit ? DECIDER_CHIPS : OPENING_CHIPS;
+  const graphic = useMemo(() => cardForLatest(cards, messages), [cards, messages]);
+  const productsLead = funnel.cards.some((card) => card.badge === "best");
 
   useEffect(() => {
     const node = transcriptRef.current;
@@ -175,6 +180,21 @@ export function DecideExperience({ cards, shelf }: { cards: CanvasCard[]; shelf:
     void send("lead", "", undefined, { parent_name: name, email: mail });
   }
 
+  function startOver() {
+    refreshGen.current += 1;
+    setSessionId("");
+    setMessages([]);
+    setPanel(null);
+    setText("");
+    setPending(false);
+    setError(null);
+    setLeadForm(null);
+    setLead(null);
+    setParentName("");
+    setEmail("");
+    setSignals({});
+  }
+
   function onChip(chip: { id: string; label: string }) {
     if (pending) return;
     void send("chip", chip.label, chip.id);
@@ -194,6 +214,11 @@ export function DecideExperience({ cards, shelf }: { cards: CanvasCard[]; shelf:
       <main className="decide">
         <div className="wrap decide-panes">
           <section className="decide-chat" aria-label="Conversation">
+            <div className="chat-tools">
+              <button className="btn order-quiet start-over" type="button" onClick={startOver}>
+                Start over
+              </button>
+            </div>
             <ol className="transcript" ref={transcriptRef} aria-busy={pending} aria-live="polite">
               {messages.length ? (
                 messages.map((m) => (
@@ -264,7 +289,8 @@ export function DecideExperience({ cards, shelf }: { cards: CanvasCard[]; shelf:
           </section>
           <LivingCanvas
             pending={pending}
-            cards={topicCards}
+            graphic={graphic}
+            productsLead={productsLead}
             funnel={funnel.cards}
             outcome={funnel.outcome}
             captured={Boolean(lead?.captured)}

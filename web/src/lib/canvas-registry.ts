@@ -48,6 +48,11 @@ export const FOLLOWUP_CHIPS = [
   { id: "guarantee", label: "Is there a money-back guarantee?" },
 ];
 
+export const DECIDER_CHIPS = [
+  { id: "man-city-yes", label: "CITYPLAY (Man City edition)" },
+  { id: "man-city-no", label: "Playermaker 2.0 (standard tracker)" },
+];
+
 const DEFS: CardDef[] = [
   {
     id: "weight",
@@ -127,6 +132,18 @@ export function buildCanvasCards(facts: CatalogFacts): CanvasCard[] {
     });
   }
   return cards;
+}
+
+/** One graphic for the latest turn, so the pane illustrates the question being asked. */
+export function cardForLatest(cards: CanvasCard[], messages: Array<{ role: string; text: string }>): CanvasCard | null {
+  const last = [...messages].reverse().find((message) => message.text.trim());
+  if (!last) return null;
+  return (
+    cards.find((card) => {
+      const def = DEFS.find((item) => item.id === card.id);
+      return def ? def.pattern.test(last.text) : false;
+    }) || null
+  );
 }
 
 export function cardsForTranscript(cards: CanvasCard[], transcript: string): CanvasCard[] {

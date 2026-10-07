@@ -49,7 +49,7 @@ const FOR_TEAMS = "https://www.playermaker.com/pages/teams";
 
 const SIGNAL_LABEL: Record<string, string> = {
   age: "their age",
-  wants_man_city_content: "whether they want Man City content",
+  wants_man_city_content: "whether they want CITYPLAY (the Man City edition) or Playermaker 2.0",
   already_owns_kit: "whether you already own a kit",
   buyer_type: "whether this is for one player or a team",
 };
@@ -225,7 +225,7 @@ function missingLabels(journey: Journey, agent: PanelState | null): string[] {
   const missing: string[] = [];
   if (journey.age === undefined) missing.push("their age");
   else if (journey.age >= 8 && journey.city === undefined && !journey.straps && !journey.team) {
-    missing.push("whether they want Man City content");
+    missing.push("whether they want CITYPLAY (the Man City edition) or Playermaker 2.0");
   }
   return missing;
 }

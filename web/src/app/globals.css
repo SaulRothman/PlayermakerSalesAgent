@@ -388,6 +388,7 @@ h2 {
   flex: 1;
   min-height: 0;
   gap: 0;
+  overflow: hidden;
 }
 
 .transcript {
@@ -402,8 +403,24 @@ h2 {
   overflow: auto;
 }
 
+.chat-tools {
+  flex: none;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+}
+
+.start-over {
+  min-height: 32px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+
 .composer-dock {
   flex: none;
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
   display: grid;
   gap: 10px;
   padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
@@ -622,6 +639,22 @@ h2 {
   border: 1px solid var(--line);
   border-radius: var(--pm-button-radius);
   overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.topic-swap {
+  animation: topic-swap 250ms ease;
+}
+
+@keyframes topic-swap {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .topic-card img {

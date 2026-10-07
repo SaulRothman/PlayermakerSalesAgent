@@ -21,14 +21,16 @@ const IMAGES: Record<Exclude<CanvasImageKey, "icons">, { src: string; alt: strin
 
 export function LivingCanvas({
   pending,
-  cards,
+  graphic,
+  productsLead,
   funnel,
   outcome,
   captured,
   onCapture,
 }: {
   pending: boolean;
-  cards: CanvasCard[];
+  graphic: CanvasCard | null;
+  productsLead: boolean;
   funnel: FunnelCard[];
   outcome: FunnelOutcome | null;
   captured: boolean;
@@ -70,6 +72,7 @@ export function LivingCanvas({
       {outcome && outcome.mode !== "shelf" ? (
         <OutcomePane outcome={outcome} captured={captured} pending={pending} onCapture={onCapture} />
       ) : null}
+      {graphic && !productsLead ? <TopicGraphic card={graphic} /> : null}
       {funnel.length ? (
         <div className="panel-grid funnel" ref={listRef}>
           {funnel.map((card) => (
@@ -86,30 +89,29 @@ export function LivingCanvas({
           ))}
         </div>
       ) : null}
-      {cards.length ? (
-        <div className="panel-grid">
-          {cards.map((card) => (
-            <article key={card.id} className="topic-card">
-              {card.imageKey && card.imageKey !== "icons" ? (
-                <img src={IMAGES[card.imageKey].src} alt={IMAGES[card.imageKey].alt} />
-              ) : null}
-              {card.id === "accuracy" ? (
-                <div className="topic-icons">
-                  <img src="/brand/research-icon-1.svg" alt="" />
-                  <img src="/brand/research-icon-2.svg" alt="" />
-                  <img src="/brand/research-icon-3.svg" alt="" />
-                </div>
-              ) : null}
-              <div className="card-body">
-                <h3>{card.title}</h3>
-                <p className="topic-body">{card.body}</p>
-                {card.footnote ? <p className="gap-note">{card.footnote}</p> : null}
-              </div>
-            </article>
-          ))}
+      {graphic && productsLead ? <TopicGraphic card={graphic} /> : null}
+    </aside>
+  );
+}
+
+function TopicGraphic({ card }: { card: CanvasCard }) {
+  const image = card.imageKey && card.imageKey !== "icons" ? IMAGES[card.imageKey] : null;
+  return (
+    <article key={card.id} className="topic-card topic-swap">
+      {image ? <img src={image.src} alt={image.alt} /> : null}
+      {card.id === "accuracy" ? (
+        <div className="topic-icons">
+          <img src="/brand/research-icon-1.svg" alt="" />
+          <img src="/brand/research-icon-2.svg" alt="" />
+          <img src="/brand/research-icon-3.svg" alt="" />
         </div>
       ) : null}
-    </aside>
+      <div className="card-body">
+        <h3>{card.title}</h3>
+        <p className="topic-body">{card.body}</p>
+        {card.footnote ? <p className="gap-note">{card.footnote}</p> : null}
+      </div>
+    </article>
   );
 }
 
