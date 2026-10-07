@@ -65,31 +65,37 @@ export function readJourney(
   signals: BuyerSignals,
   messages: Array<{ role: string; text: string }>,
 ): Journey {
+  const owns = signals.already_owns_kit === true;
+  const wantsStraps = (signals.needs || []).some((n) => /strap/i.test(n));
   const journey: Journey = {
     age: signals.age,
     city: signals.wants_man_city_content,
-    straps: Boolean(signals.already_owns_kit && (signals.needs || []).some((n) => /strap/i.test(n))),
+    straps: owns && wantsStraps,
     team: signals.buyer_type === "team_or_club",
     goalkeeper: signals.position === "goalkeeper",
     indoor: (signals.environment || []).some((e) => /indoor|futsal/i.test(e)),
   };
 
   let pending: "city" | null = null;
+  let saidOwns = owns;
+  let saidStraps = wantsStraps;
   for (const message of messages) {
     const text = message.text.toLowerCase();
-    if (message.role === "agent") {
-      pending = /man city/.test(text) ? "city" : null;
+    if (message.role !== "visitor") {
+      pending = /man city/.test(text) && /tracker|content/.test(text) ? "city" : null;
       continue;
     }
     if (/goalkeeper|goalie|\bkeeper\b/.test(text)) journey.goalkeeper = true;
-    if (/indoor|futsal/.test(text)) journey.indoor = true;
-    if (/strap/.test(text)) journey.straps = true;
-    if (/\bteam\b|whole squad|club buy/.test(text) && !/regular club/.test(text)) journey.team = true;
+    if (/\bindoor\b|futsal/.test(text)) journey.indoor = true;
+    if (/already own|i own|we own|have (a |the )?kit|own (a |the )?kit/.test(text)) saidOwns = true;
+    if (/extra strap|need straps|replacement strap|colou?red strap/.test(text)) saidStraps = true;
+    if (/\bfor (the |a )?team\b|whole (team|squad)|club buy|team or club/.test(text)) journey.team = true;
     if (pending === "city") {
-      if (/^(yes|yeah|yep)\b/.test(text) || /man city|cityplay/.test(text)) journey.city = true;
-      if (/^(no|nope)\b/.test(text) || /just the tracker|no city|don'?t/.test(text)) journey.city = false;
+      if (/^(yes|yeah|yep)\b/.test(text) || /man city content|wants? man city|cityplay/.test(text)) journey.city = true;
+      if (/^(no|nope)\b/.test(text) || /just the tracker|no man city/.test(text)) journey.city = false;
     }
   }
+  journey.straps = saidOwns && saidStraps;
   return journey;
 }
 
@@ -173,9 +179,6 @@ export function rankFunnel(
     set("playermaker-2.0", "leading");
     set("cityplay", "fading", premium);
     set("extra-straps", "fading", "Not a tracker kit.");
-  } else if ((journey.goalkeeper || journey.indoor) && (journey.age === undefined || journey.age >= 8)) {
-    set("playermaker-2.0", "leading");
-    set("extra-straps", "fading", "Not a tracker kit.");
   } else if (journey.age !== undefined && journey.age >= 8) {
     set("extra-straps", "fading", "Only if you already own a kit.");
     for (const id of kits) {
@@ -233,13 +236,15 @@ function applyAgent(cards: FunnelCard[], agent: PanelState | null, mode: FunnelM
     if (match.what_it_does) card.what_it_does = match.what_it_does;
   }
   const winner = agent.emphasized_product_id;
-  if ((agent.outcome === "match" || agent.outcome === "accessory") && winner) {
+  const cityAnswered = mode !== "shelf" || cards.some((c) => c.state === "leading");
+  const definiteMatch = (agent.outcome === "match" || agent.outcome === "accessory") && Boolean(winner);
+  if (definiteMatch && (cityAnswered || agent.outcome === "accessory")) {
     for (const card of cards) {
       if (card.product_id === winner) {
         card.state = "leading";
         card.reason = null;
-      } else if (card.state === "candidate") {
-        card.state = "fading";
+      } else if (card.state === "candidate" || card.state === "leading") {
+        card.state = card.product_id === winner ? "leading" : "fading";
       }
     }
   }

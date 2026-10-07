@@ -116,7 +116,28 @@ export function DecideExperience({ cards, shelf }: { cards: CanvasCard[]; shelf:
       setPanel((prev) => mergePanels(prev, data.panel));
       setLeadForm(data.lead_form);
       setLead(data.lead);
-      if (data.signals) setSignals(data.signals);
+      if (data.signals) {
+        setSignals((current) => ({
+          ...current,
+          ...(current.age !== undefined && data.signals?.age !== undefined ? { age: data.signals.age } : {}),
+          ...(current.wants_man_city_content !== undefined && data.signals?.wants_man_city_content !== undefined
+            ? { wants_man_city_content: data.signals.wants_man_city_content }
+            : {}),
+          ...(current.already_owns_kit !== undefined && data.signals?.already_owns_kit !== undefined
+            ? { already_owns_kit: data.signals.already_owns_kit }
+            : {}),
+          ...(current.buyer_type !== undefined && data.signals?.buyer_type ? { buyer_type: data.signals.buyer_type } : {}),
+          ...(current.position !== undefined && data.signals?.position ? { position: data.signals.position } : {}),
+          ...(current.needs !== undefined && data.signals?.needs ? { needs: data.signals.needs } : {}),
+          ...(current.environment !== undefined && data.signals?.environment
+            ? { environment: data.signals.environment }
+            : {}),
+          ...(current.shoe_size !== undefined && data.signals?.shoe_size ? { shoe_size: data.signals.shoe_size } : {}),
+          ...(current.shoe_size_system !== undefined && data.signals?.shoe_size_system
+            ? { shoe_size_system: data.signals.shoe_size_system }
+            : {}),
+        }));
+      }
       if (data.source === "devrev" && !(data.panel?.products || []).length) {
         void refreshPanel(sid, ++refreshGen.current);
       }

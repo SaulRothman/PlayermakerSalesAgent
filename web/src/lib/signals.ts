@@ -42,22 +42,16 @@ export function absorbBuyerSignals(signals: BuyerSignals, text: string, chipId?:
     if (n) next.age = Number(n[1]);
   }
 
-  if (
-    id === "man-city-yes" ||
-    /man(?:chester)?\s*city|cityplay|yes.*content|content sounds great/.test(t)
-  ) {
+  if (id === "man-city-yes" || /man(?:chester)?\s*city content|wants? man city|cityplay|content sounds great/.test(t)) {
     next.wants_man_city_content = true;
   }
-  if (
-    id === "man-city-no" ||
-    /just the tracker|tracker-only|tracker only|no city|no man|core kit|playermaker 2/.test(t)
-  ) {
+  if (id === "man-city-no" || /just the tracker|tracker-only|tracker only|no man city|don'?t want man city/.test(t)) {
     next.wants_man_city_content = false;
   }
 
-  if (/team|club buy|whole (team|squad)/.test(t)) next.buyer_type = "team_or_club";
-  if (/strap/.test(t)) {
-    next.already_owns_kit = true;
+  if (/\bfor (the |a )?team\b|whole (team|squad)|club buy|team or club/.test(t)) next.buyer_type = "team_or_club";
+  if (/already own|i own|we own|have (a |the )?kit|own (a |the )?kit/.test(t)) next.already_owns_kit = true;
+  if (/extra strap|need straps|replacement strap|colou?red strap/.test(t)) {
     next.needs = ["extra_straps"];
   }
   return next;
